@@ -1,9 +1,17 @@
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from .dummy_data import CARS, CARS_EXTENDED
 
 app = FastAPI()
 
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=["*"],
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"]
+)
 
 @app.get("/api/v1/cars")
 async def get_cars():
