@@ -1,0 +1,3 @@
+[submodule "car-rental-frontend"]
+	path = car-rental-frontend
+	url = https://github.com/amir-yari/car-rental-frontend.git
