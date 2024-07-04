@@ -3,6 +3,7 @@ import cors from "cors";
 import v1Router from "./routes/v1/index"
 const app = Express()
 
+
 app.use(cors({ origin: '*' }));
 app.use(Express.json());
 
