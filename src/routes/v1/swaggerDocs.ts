@@ -2,7 +2,7 @@ import swaggerJsdoc from "swagger-jsdoc";
 
 const swaggerDocs = swaggerJsdoc({
     definition: {
-        openapi: '3.0.0',
+        openapi: "3.0.0",
         info: {
             title: "CarX API",
             version: "0.0.0",
@@ -16,24 +16,23 @@ const swaggerDocs = swaggerJsdoc({
                 email: "info@hassanattar.com",
             },
             termsOfService: undefined, // to be filled after
-
         },
         servers: [
             {
-                url: "http://localhost:8000/api/v1",
-                description: "Local Development Server"
+                url: "https://carxapi-h5d5fhhbc4hpc5fc.eastus-01.azurewebsites.net/api/v1",
+                description: "Azure Development Server",
             },
             {
-                url: "https://api.example.com/v1",
-                description: "Cloud Development Server", // to be filled after
+                url: "http://localhost:8000/api/v1",
+                description: "Local Development Server",
             },
             {
                 url: "http://localhost:8000/api/v1", // to be filled after
-                description: "Production Server"
-            }
+                description: "Production Server",
+            },
         ],
     },
-    apis: ["./src/routes/v1/*.ts"]
+    apis: ["./src/routes/v1/*.ts"],
 });
 
 export default swaggerDocs;
