@@ -6,7 +6,6 @@ const router = Router();
 
 router.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
-
 /**
  * @swagger
  * tags:
