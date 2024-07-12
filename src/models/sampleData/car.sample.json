@@ -1,0 +1,81 @@
+[
+  {
+    "make": "Toyota",
+    "model": "Rav4",
+    "transmission": "auto",
+    "year": 2024,
+    "type": "suv",
+    "distance_included_km": 200,
+    "extra_distance_charge": 0.25,
+    "price": 69.99,
+    "fuel_type": "gasoline",
+    "header_img_url": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/rav4-1_trrvgg.jpg",
+    "address": "2606 East 41st Ave",
+    "postal_code": "V5R2W7",
+    "city": "Vancouver",
+    "region": "BC",
+    "country": "Canada",
+    "min_rent_days": 1,
+    "max_rent_days": 30,
+    "Plate_number": "ANYWAY"
+  },
+  {
+    "make": "Honda",
+    "model": "Civic",
+    "transmission": "manual",
+    "year": 2019,
+    "type": "sedan",
+    "distance_included_km": 400,
+    "extra_distance_charge": 0.20,
+    "price": 54.00,
+    "fuel_type": "hybrid",
+    "header_img_url": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754988/civic-2_heyj3z.jpg",
+    "location": {
+      "type": "Point",
+      "coordinates": [-73.935242, 40.730610]
+    },
+    "gallery_url": [
+      "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/civic-1_ouudin.jpg"
+    ],
+    "address": "456 Elm St",
+    "postal_code": "10001",
+    "city": "New York",
+    "region": "NY",
+    "country": "USA",
+    "avg_rating": 4.7,
+    "trip_count": 8,
+    "min_rent_days": 2,
+    "max_rent_days": 20,
+    "Plate_number": "XYZ5678"
+  },
+  {
+    "make": "Tesla",
+    "model": "Model 3",
+    "transmission": "auto",
+    "year": 2021,
+    "type": "sedan",
+    "distance_included_km": 300,
+    "extra_distance_charge": 0.30,
+    "price": 60.00,
+    "fuel_type": "electric",
+    "header_img_url": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754989/tesla3_rt94ba.jpg",
+    "gallery_url": [
+      "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/tesla-1_gpvpms.jpg",
+      "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/tesla-2_v3g05i.jpg"
+    ],
+    "location": {
+      "type": "Point",
+      "coordinates": [-118.2437, 34.0522]
+    },
+    "address": "789 Pine St",
+    "postal_code": "90001",
+    "city": "Los Angeles",
+    "region": "CA",
+    "country": "USA",
+    "avg_rating": 4.9,
+    "trip_count": 15,
+    "min_rent_days": 3,
+    "max_rent_days": 25,
+    "Plate_number": "TESLA123"
+  }
+]
