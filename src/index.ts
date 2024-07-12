@@ -10,11 +10,6 @@ app.use(cors({ origin: "*" }));
 app.use(morgan("common"));
 app.use(Express.json());
 
-// Health check endpoint
-app.get("/health", (_, res) => {
-    res.status(200).send("OK");
-});
-
 app.use("/api/v1", v1Router);
 
 const port = process.env.PORT || 8000;
