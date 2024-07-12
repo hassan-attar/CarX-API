@@ -4,7 +4,7 @@ import db from "../models/db";
 async function getCars(_: Request, res: Response) {
     try {
         const cars = await db.Car.findAll({ limit: 10 });
-        res.status(200).json(cars);
+        return res.status(200).json(cars);
     } catch (err) {
         console.log("Error in getCars: ", err);
         res.status(500).json("Something went Wrong");
