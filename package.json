@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --watch src --ext ts --ignore 'src/**/*.test.ts' --exec 'ts-node ./src/index.ts'",
-    "start": "npm run build && node build/index.js",
-    "start:dev": "tsc && npm run dev"
+    "start": "node build/index.js"
   },
   "author": "Hassan Attar",
   "license": "MIT",
