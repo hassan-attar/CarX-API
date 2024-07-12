@@ -1,0 +1,32 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758532/host2_khbpxl.jpg"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "phone": "+989172341233",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758530/host3_yanrzh.jpg"
+  },
+  {
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "email": "alice.johnson@example.com",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758525/host1_yob1hk.jpg"
+  },
+  {
+    "firstName": "Barak",
+    "lastName": "Lee",
+    "email": "barak.lee@gmail.com",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758885/host-4_s2o3d1.jpg"
+  }
+]
