@@ -3,45 +3,45 @@ import { initModelFunctions } from "../schemas";
 import { Models } from "../schemas/schemaTypes";
 import config from "./config";
 export interface DB extends Models {
-  sequelize: Sequelize;
-  Sequelize: typeof Sequelize;
+    sequelize: Sequelize;
+    Sequelize: typeof Sequelize;
 }
 
 const db: Partial<DB> = {};
 // @ts-ignore
 const sequelize = new Sequelize({
-  dialect: config.dialect,
-  host: config.host,
-  port: config.port,
-  database: config.database,
-  username: config.username,
-  password: config.password,
-  dialectOptions: {
-    ssl: {
-      ca: config.certificate,
-      rejectUnauthorized: true,
-      required: true,
+    dialect: config.dialect,
+    host: config.host,
+    port: config.port,
+    database: config.database,
+    username: config.username,
+    password: config.password,
+    dialectOptions: {
+        ssl: {
+            ca: config.certificate,
+            rejectUnauthorized: true,
+            required: true,
+        },
     },
-  },
-  protocol: config.protocol,
-  pool: {
-    min: config.minPoolSize,
-    max: config.maxPoolSize,
-  },
-  logging: console.log,
+    protocol: config.protocol,
+    pool: {
+        min: config.minPoolSize,
+        max: config.maxPoolSize,
+    },
+    logging: console.log,
 });
 
 initModelFunctions.forEach((initModel) => {
-  const model = initModel(sequelize, DataTypes);
-  // @ts-ignore
-  db[model.name] = model;
+    const model = initModel(sequelize, DataTypes);
+    // @ts-ignore
+    db[model.name] = model;
 });
 Object.values(db).forEach((model) => {
-  // @ts-ignore
-  if (model.associate) {
     // @ts-ignore
-    model.associate(db);
-  }
+    if (model.associate) {
+        // @ts-ignore
+        model.associate(db);
+    }
 });
 
 // sequelize
