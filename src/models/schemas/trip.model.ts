@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes as SequelizeDataTypes } from "sequelize";
 import { isAfterNow } from "./validators";
 import { Trip, Models, User, Car, Host, Payment } from "./schemaTypes";
+import { FieldLength } from "./constants";
 
 export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
     Trip.init(
@@ -63,43 +64,43 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 },
             },
             pickupAddress: {
-                type: DataTypes.CHAR(255),
+                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
                 allowNull: true,
             },
             pickupPostalCode: {
-                type: DataTypes.CHAR(10),
+                type: DataTypes.STRING(FieldLength.XXS_FIELD_LENGTH),
                 allowNull: true,
             },
             pickupCity: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: true,
             },
             pickupRegion: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: true,
             },
             pickupCountry: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: true,
             },
             returnAddress: {
-                type: DataTypes.CHAR(255),
+                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
                 allowNull: true,
             },
             returnPostalCode: {
-                type: DataTypes.CHAR(10),
+                type: DataTypes.STRING(FieldLength.XXS_FIELD_LENGTH),
                 allowNull: true,
             },
             returnCity: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: true,
             },
             returnRegion: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: true,
             },
             returnCountry: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: true,
             },
         },

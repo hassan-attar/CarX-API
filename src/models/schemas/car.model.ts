@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes as SequelizeDataTypes } from "sequelize";
 import { Car, Models, Host } from "./schemaTypes";
+import { FieldLength } from "./constants";
 
 export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
     Car.init(
@@ -20,11 +21,11 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 onUpdate: "CASCADE",
             },
             make: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             model: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.STRING(FieldLength.S_FIELD_LENGTH),
                 allowNull: false,
             },
             transmission: {
@@ -39,11 +40,11 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 type: DataTypes.ENUM("sedan", "suv", "truck", "van"),
                 allowNull: false,
             },
-            distance_included_km: {
+            distanceIncludedKm: {
                 type: DataTypes.SMALLINT,
                 allowNull: false,
             },
-            extra_distance_charge: {
+            extraDistanceCharge: {
                 type: DataTypes.DECIMAL(6, 2),
                 allowNull: false,
             },
@@ -51,16 +52,23 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 type: DataTypes.DECIMAL(6, 2),
                 allowNull: false,
             },
-            fuel_type: {
+            currency: {
+                type: DataTypes.STRING(3), // currency is a three-letter ISO 4217 code
+                allowNull: false,
+                defaultValue: "USD",
+            },
+            fuelType: {
                 type: DataTypes.ENUM("gasoline", "hybrid", "electric"),
                 allowNull: false,
             },
-            header_img_url: {
-                type: DataTypes.CHAR(255),
+            headerImage: {
+                type: DataTypes.STRING(FieldLength.L_FIELD_LENGTH),
                 allowNull: false,
             },
-            gallery_url: {
-                type: DataTypes.ARRAY(DataTypes.CHAR(255)),
+            galleryImages: {
+                type: DataTypes.ARRAY(
+                    DataTypes.STRING(FieldLength.L_FIELD_LENGTH),
+                ),
             },
             location: {
                 type: DataTypes.GEOMETRY("POINT"),
@@ -68,41 +76,41 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 defaultValue: null,
             },
             address: {
-                type: DataTypes.CHAR(255),
+                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
                 allowNull: false,
             },
-            postal_code: {
-                type: DataTypes.CHAR(10),
+            postalCode: {
+                type: DataTypes.CHAR(FieldLength.XXS_FIELD_LENGTH),
                 allowNull: false,
             },
             city: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.CHAR(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             region: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.CHAR(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             country: {
-                type: DataTypes.CHAR(24),
+                type: DataTypes.CHAR(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
-            avg_rating: {
+            avgRating: {
                 type: DataTypes.FLOAT,
             },
-            trip_count: {
+            tripCount: {
                 type: DataTypes.SMALLINT,
             },
-            min_rent_days: {
+            minRentDays: {
                 type: DataTypes.SMALLINT,
                 defaultValue: 1,
             },
-            max_rent_days: {
+            maxRentDays: {
                 type: DataTypes.SMALLINT,
                 defaultValue: 30,
             },
-            Plate_number: {
-                type: DataTypes.CHAR(10),
+            plateNumber: {
+                type: DataTypes.CHAR(FieldLength.XXS_FIELD_LENGTH),
                 allowNull: false,
             },
         },

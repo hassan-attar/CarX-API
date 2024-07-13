@@ -3,15 +3,15 @@ import Sequelize from "sequelize";
 interface OptionalCarAttributes {
     carId?: string;
     hostId?: string;
-    gallery_url?: string[];
+    galleryImages?: string[];
     location?: {
         type: "Point";
         coordinates: [number, number];
     } | null;
-    avg_rating?: number;
-    trip_count?: number;
-    min_rent_days?: number;
-    max_rent_days?: number;
+    avgRating?: number;
+    tripCount?: number;
+    minRentDays?: number;
+    maxRentDays?: number;
 }
 
 interface CarAttributes extends OptionalCarAttributes {
@@ -20,17 +20,18 @@ interface CarAttributes extends OptionalCarAttributes {
     transmission: "auto" | "manual";
     year: number;
     type: "sedan" | "suv" | "truck" | "van";
-    distance_included_km: number;
-    extra_distance_charge: number;
+    distanceIncludedKm: number;
+    extraDistanceCharge: number;
     price: number;
-    fuel_type: "gasoline" | "hybrid" | "electric";
-    header_img_url: string;
+    currency: string;
+    fuelType: "gasoline" | "hybrid" | "electric";
+    headerImage: string;
     address: string;
-    postal_code: string;
+    postalCode: string;
     city: string;
     region: string;
     country: string;
-    Plate_number: string;
+    plateNumber: string;
 }
 
 interface CarCreationAttributes
@@ -47,26 +48,27 @@ export class Car
     public transmission!: "auto" | "manual";
     public year!: number;
     public type!: "sedan" | "suv" | "truck" | "van";
-    public distance_included_km!: number;
-    public extra_distance_charge!: number;
+    public distanceIncludedKm!: number;
+    public extraDistanceCharge!: number;
     public price!: number;
-    public fuel_type!: "gasoline" | "hybrid" | "electric";
-    public header_img_url!: string;
-    public gallery_url!: string[];
+    public currency!: string;
+    public fuelType!: "gasoline" | "hybrid" | "electric";
+    public headerImage!: string;
+    public galleryImages!: string[];
     public location!: {
         type: "Point";
         coordinates: [number, number];
     } | null;
     public address!: string;
-    public postal_code!: string;
+    public postalCode!: string;
     public city!: string;
     public region!: string;
     public country!: string;
-    public avg_rating!: number;
-    public trip_count!: number;
-    public min_rent_days!: number;
-    public max_rent_days!: number;
-    public Plate_number!: string;
+    public avgRating!: number;
+    public tripCount!: number;
+    public minRentDays!: number;
+    public maxRentDays!: number;
+    public plateNumber!: string;
 
     // timestamps!
     public readonly createdAt!: Date;

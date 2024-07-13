@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes as SequelizeDataTypes } from "sequelize";
 import { Review, Models, Car, User, Host } from "./schemaTypes";
+import { FieldLength } from "./constants";
 
 export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
     Review.init(
@@ -38,11 +39,11 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 onUpdate: "CASCADE",
             },
             comment: {
-                type: DataTypes.CHAR(255),
+                type: DataTypes.STRING(FieldLength.L_FIELD_LENGTH),
                 allowNull: true,
             },
             hostReply: {
-                type: DataTypes.CHAR(255),
+                type: DataTypes.STRING(FieldLength.L_FIELD_LENGTH),
                 allowNull: true,
                 defaultValue: null,
             },

@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes as SequelizeDataTypes } from "sequelize";
 import { Host, Models } from "./schemaTypes";
+import { FieldLength } from "./constants";
 
 export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
     Host.init(
@@ -10,27 +11,27 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 defaultValue: DataTypes.UUIDV4,
             },
             firstName: {
-                type: DataTypes.CHAR(32),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             lastName: {
-                type: DataTypes.CHAR(32),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             email: {
-                type: DataTypes.CHAR(128),
+                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
                 allowNull: false,
                 unique: true,
             },
             phone: {
-                type: DataTypes.CHAR(20),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
             },
             password: {
-                type: DataTypes.CHAR(128),
+                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
                 allowNull: false,
             },
             profileImage: {
-                type: DataTypes.CHAR(255),
+                type: DataTypes.STRING(FieldLength.L_FIELD_LENGTH),
             },
             passChangedOn: {
                 type: DataTypes.DATE,
@@ -39,7 +40,7 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 type: DataTypes.DATE,
             },
             passChangeHash: {
-                type: DataTypes.CHAR(128),
+                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
             },
         },
         {
