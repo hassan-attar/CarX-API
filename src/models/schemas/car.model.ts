@@ -80,19 +80,19 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 allowNull: false,
             },
             postalCode: {
-                type: DataTypes.CHAR(FieldLength.XXS_FIELD_LENGTH),
+                type: DataTypes.STRING(FieldLength.XXS_FIELD_LENGTH),
                 allowNull: false,
             },
             city: {
-                type: DataTypes.CHAR(FieldLength.XS_FIELD_LENGTH),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             region: {
-                type: DataTypes.CHAR(FieldLength.XS_FIELD_LENGTH),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             country: {
-                type: DataTypes.CHAR(FieldLength.XS_FIELD_LENGTH),
+                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
             avgRating: {
@@ -110,7 +110,7 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 defaultValue: 30,
             },
             plateNumber: {
-                type: DataTypes.CHAR(FieldLength.XXS_FIELD_LENGTH),
+                type: DataTypes.STRING(FieldLength.XXS_FIELD_LENGTH),
                 allowNull: false,
             },
         },

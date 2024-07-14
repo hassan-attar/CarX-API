@@ -86,5 +86,6 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             constraints: true,
         });
     };
+
     return User;
 };
