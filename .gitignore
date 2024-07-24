@@ -4,3 +4,4 @@
 build
 **/*.env
 /public/*
+asset
