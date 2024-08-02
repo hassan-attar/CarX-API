@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import db from "../models/db";
+import db from "../../models/application/db";
 
 async function getCars(_: Request, res: Response) {
     try {
