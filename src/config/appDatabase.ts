@@ -3,23 +3,23 @@ import BaseConfig, { BaseConfig as BaseConfigInterface } from "./base";
 import Assert from "node:assert";
 
 // Define the schema for database configuration with uppercase environment variable names
-const dbConfigSchema = Joi.object({
-    DB_USERNAME: Joi.string().required(),
-    DB_PASSWORD: Joi.string().required(),
-    DB_HOST: Joi.string().required(),
-    DB_PORT: Joi.string().required(),
-    DB_DIALECT: Joi.string().required(),
-    DB_PROTOCOL: Joi.string().required(),
-    CA_CERT: Joi.string().required(),
-    DB_NAME: Joi.string().required(),
-    DB_MIN_POOL_SIZE: Joi.string().optional(),
-    DB_MAX_POOL_SIZE: Joi.string().optional(),
+const appDbConfigSchema = Joi.object({
+    DB_APP_USERNAME: Joi.string().required(),
+    DB_APP_PASSWORD: Joi.string().required(),
+    DB_APP_HOST: Joi.string().required(),
+    DB_APP_PORT: Joi.string().required(),
+    DB_APP_DIALECT: Joi.string().required(),
+    DB_APP_PROTOCOL: Joi.string().required(),
+    DB_APP_CA_CERT: Joi.string().required(),
+    DB_APP_NAME: Joi.string().required(),
+    DB_APP_MIN_POOL_SIZE: Joi.string().optional(),
+    DB_APP_MAX_POOL_SIZE: Joi.string().optional(),
 })
     .unknown()
     .required();
 
 // Validate environment variables
-const { error, value: envVars } = dbConfigSchema.validate(process.env, {
+const { error, value: envVars } = appDbConfigSchema.validate(process.env, {
     abortEarly: false,
 });
 
@@ -29,7 +29,7 @@ Assert(
 );
 
 // Define the interface for the database configuration with uppercase names
-interface DbConfig extends BaseConfigInterface {
+interface AppDbConfig extends BaseConfigInterface {
     DB_USERNAME: string;
     DB_PASSWORD: string;
     DB_HOST: string;
@@ -43,18 +43,22 @@ interface DbConfig extends BaseConfigInterface {
 }
 
 // Create the configuration object with uppercase names
-const dbConfig: DbConfig = {
-    DB_USERNAME: envVars.DB_USERNAME,
-    DB_PASSWORD: envVars.DB_PASSWORD,
-    DB_HOST: envVars.DB_HOST,
-    DB_PORT: envVars.DB_PORT,
-    DB_DIALECT: envVars.DB_DIALECT,
-    DB_PROTOCOL: envVars.DB_PROTOCOL,
-    CA_CERT: envVars.CA_CERT.replace(/<NEWLINE>/g, "\n"), // Format certificate
-    DB_NAME: envVars.DB_NAME,
-    DB_MIN_POOL_SIZE: envVars.DB_MIN_POOL_SIZE ? +envVars.DB_MIN_POOL_SIZE : 5,
-    DB_MAX_POOL_SIZE: envVars.DB_MAX_POOL_SIZE ? +envVars.DB_MAX_POOL_SIZE : 10,
+const appDbConfig: AppDbConfig = {
+    DB_USERNAME: envVars.DB_APP_USERNAME,
+    DB_PASSWORD: envVars.DB_APP_PASSWORD,
+    DB_HOST: envVars.DB_APP_HOST,
+    DB_PORT: envVars.DB_APP_PORT,
+    DB_DIALECT: envVars.DB_APP_DIALECT,
+    DB_PROTOCOL: envVars.DB_APP_PROTOCOL,
+    CA_CERT: envVars.DB_APP_CA_CERT.replace(/<NEWLINE>/g, "\n"), // Format certificate
+    DB_NAME: envVars.DB_APP_NAME,
+    DB_MIN_POOL_SIZE: envVars.DB_APP_MIN_POOL_SIZE
+        ? +envVars.DB_APP_MIN_POOL_SIZE
+        : 5,
+    DB_MAX_POOL_SIZE: envVars.DB_APP_MAX_POOL_SIZE
+        ? +envVars.DB_APP_MAX_POOL_SIZE
+        : 10,
     ...BaseConfig,
 };
 
-export default Object.freeze(dbConfig);
+export default Object.freeze(appDbConfig);

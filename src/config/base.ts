@@ -23,11 +23,13 @@ Assert(
 
 export interface BaseConfig {
     NODE_ENV: string;
+    PORT: number;
 }
 
 // Create the configuration object
 const config: BaseConfig = {
     NODE_ENV: envVars.NODE_ENV,
+    PORT: process.env.port ? +process.env.port : 8000,
 };
 
 // Freeze the configuration object to make it immutable

@@ -1,4 +1,6 @@
 import swaggerJsdoc from "swagger-jsdoc";
+import path from "node:path";
+import { sync } from "glob";
 
 const swaggerDocs = swaggerJsdoc({
     definition: {
@@ -13,7 +15,7 @@ const swaggerDocs = swaggerJsdoc({
             },
             contact: {
                 name: "Hassan Attar",
-                email: "info@hassanattar.com",
+                email: "h.a.develops@gmail.com",
             },
             termsOfService: undefined, // to be filled after
         },
@@ -32,7 +34,9 @@ const swaggerDocs = swaggerJsdoc({
             },
         ],
     },
-    apis: ["./src/routes/v1/*.ts"],
+    apis: sync(path.join(__dirname, "routes", "**", "*.ts")).concat(
+        sync(path.join(__dirname, "routes", "**", "*.js")),
+    ),
 });
 
 export default swaggerDocs;

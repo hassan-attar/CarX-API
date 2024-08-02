@@ -28,5 +28,53 @@
     "email": "barak.lee@gmail.com",
     "password": "12345678",
     "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758885/host-4_s2o3d1.jpg"
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Brown",
+    "email": "michael.brown@example.com",
+    "phone": "+14155552671",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758555/host4_lu7udg.jpg"
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Davis",
+    "email": "emily.davis@example.com",
+    "phone": "+442032960123",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758556/host5_yo9b0s.jpg"
+  },
+  {
+    "firstName": "David",
+    "lastName": "Wilson",
+    "email": "david.wilson@example.com",
+    "phone": "+4915112345678",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758557/host6_pq2z8r.jpg"
+  },
+  {
+    "firstName": "Sophia",
+    "lastName": "Martinez",
+    "email": "sophia.martinez@example.com",
+    "phone": "+34611223344",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758558/host7_m6zjod.jpg"
+  },
+  {
+    "firstName": "James",
+    "lastName": "Garcia",
+    "email": "james.garcia@example.com",
+    "phone": "+61 2 1234 5678",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758559/host8_ak0b8z.jpg"
+  },
+  {
+    "firstName": "Olivia",
+    "lastName": "Rodriguez",
+    "email": "olivia.rodriguez@example.com",
+    "phone": "+46701234567",
+    "password": "12345678",
+    "profileImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720758560/host9_dv1szl.jpg"
   }
 ]

@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { initModelFunctions } from "../schemas";
 import { Models } from "../schemas/schemaTypes";
-import config from "./config";
+import { appDbConfig } from "../../../config";
 export interface DB extends Models {
     sequelize: Sequelize;
     Sequelize: typeof Sequelize;
@@ -10,23 +10,23 @@ export interface DB extends Models {
 const db: Partial<DB> = {};
 // @ts-ignore
 const sequelize = new Sequelize({
-    dialect: config.dialect,
-    host: config.host,
-    port: config.port,
-    database: config.database,
-    username: config.username,
-    password: config.password,
+    dialect: appDbConfig.DB_DIALECT,
+    host: appDbConfig.DB_HOST,
+    port: appDbConfig.DB_PORT,
+    database: appDbConfig.DB_NAME,
+    username: appDbConfig.DB_USERNAME,
+    password: appDbConfig.DB_PASSWORD,
     dialectOptions: {
         ssl: {
-            ca: config.certificate,
+            ca: appDbConfig.CA_CERT,
             rejectUnauthorized: true,
             required: true,
         },
     },
-    protocol: config.protocol,
+    protocol: appDbConfig.DB_PROTOCOL,
     pool: {
-        min: config.minPoolSize,
-        max: config.maxPoolSize,
+        min: appDbConfig.DB_MIN_POOL_SIZE,
+        max: appDbConfig.DB_MAX_POOL_SIZE,
     },
     logging: console.log,
 });

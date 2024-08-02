@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CarControllers from "../controllers/cars";
+import CarControllers from "../../controllers/cars";
 const router = Router();
 
 /**
@@ -114,20 +114,20 @@ router.get("/", CarControllers.getCars);
  * @swagger
  * /cars/{carId}:
  *   get:
- *     summary: Get a car by ID
+ *     summary: Get a cars by ID
  *     tags: [Cars]
  *     operationId: getCarById
- *     description: Retrieves a car by its ID from the database.
+ *     description: Retrieves a cars by its ID from the database.
  *     parameters:
  *       - in: path
  *         name: carId
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of the car to retrieve
+ *         description: The ID of the cars to retrieve
  *     responses:
  *       200:
- *         description: A car object
+ *         description: A cars object
  *         content:
  *           application/json:
  *             schema:

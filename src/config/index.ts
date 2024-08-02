@@ -1,6 +1,7 @@
 import "./loadEnv";
 import baseConfig from "./base";
-import DbConfig from "./db";
-import AuthConfig from "./auth";
+import appDbConfig from "./appDatabase";
+import authDbConfig from "./authDatabase";
+import authConfig from "./auth";
 
-export { baseConfig, DbConfig, AuthConfig };
+export { baseConfig, appDbConfig, authConfig, authDbConfig };

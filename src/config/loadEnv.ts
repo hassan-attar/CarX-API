@@ -5,9 +5,9 @@ import dotenv from "dotenv";
 
 const globalEnvPath = path.join(__dirname, ".env");
 const envFileMap: Record<string, string> = {
-    development: path.join(__dirname, ".dev.env"),
-    production: path.join(__dirname, ".prod.env"),
-    test: path.join(__dirname, ".test.env"),
+    development: path.join(__dirname, "..", "..", ".dev.env"),
+    production: path.join(__dirname, "..", "..", ".prod.env"),
+    test: path.join(__dirname, "..", "..", ".test.env"),
 };
 
 if (fs.existsSync(globalEnvPath)) {
