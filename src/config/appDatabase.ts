@@ -1,6 +1,7 @@
 import Joi from "joi";
 import BaseConfig, { BaseConfig as BaseConfigInterface } from "./base";
 import Assert from "node:assert";
+import {baseConfig} from "./index";
 
 // Define the schema for database configuration with uppercase environment variable names
 const appDbConfigSchema = Joi.object({
@@ -10,11 +11,13 @@ const appDbConfigSchema = Joi.object({
     DB_APP_PORT: Joi.string().required(),
     DB_APP_DIALECT: Joi.string().required(),
     DB_APP_PROTOCOL: Joi.string().required(),
-    DB_APP_CA_CERT: Joi.string().required(),
     DB_APP_NAME: Joi.string().required(),
     DB_APP_MIN_POOL_SIZE: Joi.string().optional(),
     DB_APP_MAX_POOL_SIZE: Joi.string().optional(),
-})
+}).append(
+    baseConfig.NODE_ENV === 'production' ? {
+        DB_APP_CA_CERT: Joi.string().required()
+    } : {})
     .unknown()
     .required();
 
@@ -36,7 +39,7 @@ interface AppDbConfig extends BaseConfigInterface {
     DB_PORT: string;
     DB_DIALECT: string;
     DB_PROTOCOL: string;
-    CA_CERT: string;
+    CA_CERT?: string;
     DB_NAME: string;
     DB_MIN_POOL_SIZE: number;
     DB_MAX_POOL_SIZE: number;
@@ -50,7 +53,7 @@ const appDbConfig: AppDbConfig = {
     DB_PORT: envVars.DB_APP_PORT,
     DB_DIALECT: envVars.DB_APP_DIALECT,
     DB_PROTOCOL: envVars.DB_APP_PROTOCOL,
-    CA_CERT: envVars.DB_APP_CA_CERT.replace(/<NEWLINE>/g, "\n"), // Format certificate
+    CA_CERT: baseConfig.NODE_ENV === 'production'? envVars.DB_APP_CA_CERT.replace(/<NEWLINE>/g, "\n"): undefined, // Format certificate
     DB_NAME: envVars.DB_APP_NAME,
     DB_MIN_POOL_SIZE: envVars.DB_APP_MIN_POOL_SIZE
         ? +envVars.DB_APP_MIN_POOL_SIZE

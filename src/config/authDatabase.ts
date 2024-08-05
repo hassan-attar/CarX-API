@@ -1,6 +1,7 @@
 import Joi from "joi";
 import BaseConfig, { BaseConfig as BaseConfigInterface } from "./base";
 import Assert from "node:assert";
+import {baseConfig} from "./index";
 
 // Define the schema for database configuration with uppercase environment variable names
 const authDbConfigSchema = Joi.object({
@@ -10,11 +11,13 @@ const authDbConfigSchema = Joi.object({
     DB_AUTH_PORT: Joi.string().required(),
     DB_AUTH_DIALECT: Joi.string().required(),
     DB_AUTH_PROTOCOL: Joi.string().required(),
-    DB_AUTH_CA_CERT: Joi.string().required(),
     DB_AUTH_NAME: Joi.string().required(),
     DB_AUTH_MIN_POOL_SIZE: Joi.string().optional(),
     DB_AUTH_MAX_POOL_SIZE: Joi.string().optional(),
-})
+}).append(
+    baseConfig.NODE_ENV === 'production' ? {
+        DB_AUTH_CA_CERT: Joi.string().required()
+    } : {})
     .unknown()
     .required();
 
@@ -36,7 +39,7 @@ interface AuthDbConfig extends BaseConfigInterface {
     DB_PORT: string;
     DB_DIALECT: string;
     DB_PROTOCOL: string;
-    CA_CERT: string;
+    CA_CERT?: string;
     DB_NAME: string;
     DB_MIN_POOL_SIZE: number;
     DB_MAX_POOL_SIZE: number;
@@ -50,7 +53,7 @@ const authDbConfig: AuthDbConfig = {
     DB_PORT: envVars.DB_AUTH_PORT,
     DB_DIALECT: envVars.DB_AUTH_DIALECT,
     DB_PROTOCOL: envVars.DB_AUTH_PROTOCOL,
-    CA_CERT: envVars.DB_AUTH_CA_CERT.replace(/<NEWLINE>/g, "\n"), // Format certificate
+    CA_CERT: baseConfig.NODE_ENV === 'production' ? envVars.DB_AUTH_CA_CERT.replace(/<NEWLINE>/g, "\n"): undefined, // Format certificate
     DB_NAME: envVars.DB_AUTH_NAME,
     DB_MIN_POOL_SIZE: envVars.DB_AUTH_MIN_POOL_SIZE
         ? +envVars.DB_AUTH_MIN_POOL_SIZE

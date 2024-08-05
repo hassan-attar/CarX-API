@@ -16,13 +16,13 @@ const sequelize = new Sequelize({
     database: appDbConfig.DB_NAME,
     username: appDbConfig.DB_USERNAME,
     password: appDbConfig.DB_PASSWORD,
-    dialectOptions: {
+    dialectOptions: appDbConfig.NODE_ENV === "production"? {
         ssl: {
             ca: appDbConfig.CA_CERT,
             rejectUnauthorized: true,
             required: true,
-        },
-    },
+        }
+    } : undefined,
     protocol: appDbConfig.DB_PROTOCOL,
     pool: {
         min: appDbConfig.DB_MIN_POOL_SIZE,
