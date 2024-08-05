@@ -9,3 +9,4 @@ asset
 
 .dockerignore
 Dockerfile
+frontend
