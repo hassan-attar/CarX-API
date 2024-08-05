@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:20-alpine
 
 LABEL maintainer="Hassan Attar <h.a.develops@gmail.com>"
 
