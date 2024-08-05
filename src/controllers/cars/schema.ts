@@ -1,11 +1,4 @@
 import Joi from "joi";
-// import appDb from "../../models/application/db";
-
-const getDateDaysAhead = (days: number): string => {
-    const date = new Date();
-    date.setDate(date.getDate() + days);
-    return date.toISOString();
-};
 
 interface CarFilter {
     priceMin?: number;
@@ -61,11 +54,7 @@ const carFilterSchema = Joi.object<CarFilter>({
         .iso()
         .default(new Date().toISOString())
         .optional(),
-    availableTo: Joi.date()
-        .iso()
-        .min(Joi.ref("availableFrom"))
-        .default(getDateDaysAhead(3))
-        .optional(),
+    availableTo: Joi.date().iso().min(Joi.ref("availableFrom")).optional(),
     page: Joi.number().integer().positive().default(1).optional(),
     limit: Joi.number().integer().positive().max(100).default(10).optional(),
 });

@@ -5,16 +5,17 @@ import { Op } from "sequelize";
 
 async function getCars(req: Request, res: Response) {
     try {
-        const { error, value: filters } = carFilterSchema.validate(req.params, {
+        const { error, value: filters } = carFilterSchema.validate(req.query, {
             abortEarly: false,
         });
         if (error) return res.status(422).json({ error: error.details });
-
         const availabilities = await db.CarAvailability.findAll({
             where: {
                 [Op.and]: {
                     from: { [Op.lte]: filters.availableFrom },
-                    to: { [Op.gte]: filters.availableTo },
+                    ...(filters.availableTo
+                        ? { to: { [Op.gte]: filters.availableTo } }
+                        : []),
                 },
             },
             attributes: ["carId"],
