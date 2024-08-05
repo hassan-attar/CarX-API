@@ -6,7 +6,3 @@ build
 /public/*
 asset
 !**/*.env.placeholder
-
-.dockerignore
-Dockerfile
-frontend

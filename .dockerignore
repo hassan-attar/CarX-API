@@ -1,0 +1,25 @@
+# Node modules in any directory
+**/node_modules
+
+# Log files in any directory
+**/*.log
+
+# Build output in any directory
+**/build
+**/dist
+
+# Docker-related files in any directory
+Dockerfile
+.dockerignore
+
+# Git files in any directory
+**/.git
+**/.gitignore
+
+# OS-specific files
+**/.DS_Store
+**/Thumbs.db
+
+# Environment files
+**/*.env
+**/*.env.placeholder
