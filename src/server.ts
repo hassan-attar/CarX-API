@@ -3,15 +3,10 @@ import appDb from "./models/application/db";
 import authDb from "./models/auth/db";
 import api from "./app";
 import express from "express";
-import path from "node:path";
 
 const port = process.env.PORT || 8000;
 const app = express();
 app.use("/api/v1", api);
-app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
-app.get("*", (_, res) => {
-    res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-});
 // Create HTTPS server with credentials
 const server = http.createServer(app);
 
