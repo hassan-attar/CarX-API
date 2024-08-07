@@ -44,18 +44,6 @@ Object.values(db).forEach((model) => {
     }
 });
 
-// sequelize
-//     .sync({
-//         force: true,
-//         logging: console.log,
-//     })
-//     .then(() => {
-//         console.log("Database Synchronized...");
-//     })
-//     .catch((err) => {
-//         console.error(err);
-//     });
-
 db["sequelize"] = sequelize;
 db["Sequelize"] = Sequelize;
 export default db as DB;

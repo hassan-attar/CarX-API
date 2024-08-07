@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { initModelFunctions } from "../schemas";
 import { Models } from "../schemas/schemaTypes";
-import { authDbConfig } from "../../../config";
+import {authDbConfig} from "../../../config";
 export interface DB extends Models {
     sequelize: Sequelize;
     Sequelize: typeof Sequelize;
@@ -16,13 +16,13 @@ const sequelize = new Sequelize({
     database: authDbConfig.DB_NAME,
     username: authDbConfig.DB_USERNAME,
     password: authDbConfig.DB_PASSWORD,
-    dialectOptions: {
+    dialectOptions: authDbConfig.NODE_ENV === "production"? {
         ssl: {
             ca: authDbConfig.CA_CERT,
             rejectUnauthorized: true,
             required: true,
-        },
-    },
+        }
+    } : undefined,
     protocol: authDbConfig.DB_PROTOCOL,
     pool: {
         min: authDbConfig.DB_MIN_POOL_SIZE,
@@ -43,18 +43,6 @@ Object.values(db).forEach((model) => {
         model.associate(db);
     }
 });
-
-// sequelize
-//     .sync({
-//         force: true,
-//         logging: console.log,
-//     })
-//     .then(() => {
-//         console.log("Database Synchronized...");
-//     })
-//     .catch((err) => {
-//         console.error(err);
-//     });
 
 db["sequelize"] = sequelize;
 db["Sequelize"] = Sequelize;
