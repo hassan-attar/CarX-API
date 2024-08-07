@@ -35,7 +35,7 @@ jobs:
       SESSION_SECRET: ${{secrets.SESSION_SECRET}}
     services:
       app-db:
-        image: hassanattar/postgis
+        image: hassanattar/postgis:15-3.4
         env:
           POSTGRES_PASSWORD: ciDatabasePassword
           POSTGRES_USER: ciUser
@@ -48,7 +48,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       auth-db:
-        image: hassanattar/postgis
+        image: hassanattar/postgis:15-3.4
         env:
           POSTGRES_PASSWORD: ciDatabasePassword
           POSTGRES_USER: ciUser
