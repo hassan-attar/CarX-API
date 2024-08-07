@@ -118,7 +118,6 @@ export default async function loadSampleData(db: DB) {
             })
         }))
         console.log("Car Availability Created.");
-        process.exit(0);
     }catch(err){
         console.error("Error in Loading Sample Data: ", err);
         process.exit(1);

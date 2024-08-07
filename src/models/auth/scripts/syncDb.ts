@@ -27,10 +27,10 @@ const argv: Args = yargs(hideBin(process.argv))
 // Function to load sample data
 const loadSampleData = async () => {
     try {
-
-        console.warn('NOT IMPLEMENTED');
+        console.warn('Loading sample data into the database not yet implemented.');
     } catch (error) {
         console.error('Error loading sample data:', error);
+        process.exit(1);
     }
 };
 
@@ -50,8 +50,10 @@ const synchronizeDatabase = async () => {
 
     } catch (error) {
         console.error('Error synchronizing database:', error);
+        process.exit(1);
     } finally {
         await db.sequelize.close();
+        process.exit(0);
     }
 };
 

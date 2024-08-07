@@ -32,15 +32,18 @@ const synchronizeDatabase = async () => {
             force: argv.freshDb,
             logging: console.log,
         });
-        console.log('Database synchronized.');
+        console.log('Database synchronized. Fresh DB created.');
 
         // Load sample data if specified
         if (argv.loadSampleData) {
             await loadSampleData(db);
         }
-
     } catch (error) {
         console.error('Error synchronizing database:', error);
+        process.exit(1);
+    } finally {
+        await db.sequelize.close();
+        process.exit(0);
     }
 };
 
