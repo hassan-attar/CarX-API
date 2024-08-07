@@ -1,4 +1,4 @@
-name: CI
+name: Build and Test
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ on:
       - develop
 jobs:
   build:
-    name: Continuous Integration
+    name: CI
     runs-on: ubuntu-latest
     env:
       NODE_ENV: development
