@@ -7,8 +7,13 @@
     "build": "tsc",
     "start": "node build/server.js",
     "dev": "NODE_ENV=development nodemon --watch src --ext ts --ignore 'src/**/*.test.ts' --exec 'ts-node src/server.ts'",
+    "test": "echo Test not yet implemented",
     "setup-fresh-db": "ts-node src/models/application/scripts/syncDb.ts -f",
-    "setup-fresh-db-with-data": "ts-node src/models/application/scripts/syncDb.ts -f -l"
+    "setup-fresh-db-with-data": "ts-node src/models/application/scripts/syncDb.ts -f -l",
+    "clean-db:app": "./node_modules/.bin/ts-node ./src/models/application/scripts/syncDb.ts -f",
+    "clean-db-with-data:app": "./node_modules/.bin/ts-node ./src/models/application/scripts/syncDb.ts -f -l",
+    "clean-db:auth": "./node_modules/.bin/ts-node ./src/models/auth/scripts/syncDb.ts -f",
+    "clean-db-with-data:auth": "./node_modules/.bin/ts-node ./src/models/auth/scripts/syncDb.ts -f -l"
   },
   "author": "Hassan Attar",
   "license": "MIT",
