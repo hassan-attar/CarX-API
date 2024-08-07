@@ -6,9 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/server.js",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "NODE_ENV=development nodemon --watch src --ext ts --ignore 'src/**/*.test.ts' --exec 'ts-node src/server.ts'",
-    "dev:frontend": "cd frontend && npm run dev"
+    "dev": "NODE_ENV=development nodemon --watch src --ext ts --ignore 'src/**/*.test.ts' --exec 'ts-node src/server.ts'",
+    "setup-fresh-db": "ts-node src/models/application/scripts/syncDb.ts -f",
+    "setup-fresh-db-with-data": "ts-node src/models/application/scripts/syncDb.ts -f -l"
   },
   "author": "Hassan Attar",
   "license": "MIT",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.623.0",
+    "@types/yargs": "^17.0.32",
     "bcrypt": "^5.1.1",
     "connect-redis": "^7.1.1",
     "connect-session-sequelize": "^7.1.7",
@@ -59,6 +60,7 @@
     "sequelize": "^6.37.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "yargs": "^17.7.2"
   }
 }
