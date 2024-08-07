@@ -20,5 +20,5 @@ const envPath = envFileMap[nodeEnv];
 if (envPath && fs.existsSync(envPath)) {
     dotenv.config({ path: envPath });
 } else {
-    console.log(`No environment-specific .env file found for ${nodeEnv}`);
+    console.log(`No environment-specific .env file found for ${nodeEnv}; defaulting to system env vars.`);
 }

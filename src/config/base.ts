@@ -6,10 +6,14 @@ import Assert from "node:assert";
 const schema = Joi.object({
     NODE_ENV: Joi.string()
         .valid("development", "production", "test")
-        .required(),
+        .optional().default("development"),
 })
     .unknown()
     .required();
+
+if(!process.env.NODE_ENV) {
+    console.warn("NODE_ENV is not set explicitly, defaulting to development...");
+}
 
 // Validate environment variables and create configuration object
 const { error, value: envVars } = schema.validate(process.env, {
