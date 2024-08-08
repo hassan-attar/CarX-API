@@ -1,0 +1,347 @@
+[
+  {
+    "comment": "The car was clean and well-maintained. Had a great experience!",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The rental process was smooth, but the car had a strange smell.",
+    "hostReply": "Sorry to hear about the smell. We'll make sure to address this issue.",
+    "rating": 3
+  },
+  {
+    "comment": "Excellent service! The car was exactly as described.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car broke down in the middle of the trip. Very disappointed.",
+    "hostReply": "We apologize for the inconvenience. Please contact us directly for compensation.",
+    "rating": 2
+  },
+  {
+    "comment": "Great car and friendly host. Will rent again!",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The pickup location was confusing. Could use better directions.",
+    "hostReply": "Thank you for the feedback. We'll work on improving the directions.",
+    "rating": 3
+  },
+  {
+    "comment": "Amazing experience! The car was perfect for our road trip.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was not cleaned properly, and there were issues with the AC.",
+    "hostReply": "We're sorry for the oversight. We'll ensure better cleaning and maintenance.",
+    "rating": 2
+  },
+  {
+    "comment": "Good value for the price. The car was okay but not exceptional.",
+    "hostReply": null,
+    "rating": 3
+  },
+  {
+    "comment": "The host was very accommodating and the car was in great shape.",
+    "hostReply": "Thank you for your kind words! We're glad you had a good experience.",
+    "rating": 4
+  },
+  {
+    "comment": "Car had several dents that weren't mentioned in the listing.",
+    "hostReply": "We apologize for the oversight. We'll update the listing to reflect the car's condition accurately.",
+    "rating": 2
+  },
+  {
+    "comment": "Nice car and great communication with the host.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car was fuel-efficient and easy to drive. Highly recommend!",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "There were some issues with the reservation process. Not very user-friendly.",
+    "hostReply": "Thank you for your feedback. We'll work on making the reservation process more user-friendly.",
+    "rating": 3
+  },
+  {
+    "comment": "Very satisfied with the rental experience. The car was exactly what we needed.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car's GPS was outdated, which caused some inconvenience.",
+    "hostReply": "We apologize for the outdated GPS. We'll ensure it gets updated for future rentals.",
+    "rating": 3
+  },
+  {
+    "comment": "The host was polite, but the car had some mechanical issues.",
+    "hostReply": "Sorry for the issues with the car. We'll check and fix these problems immediately.",
+    "rating": 2
+  },
+  {
+    "comment": "Everything was perfect! Great car and excellent service.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was just okay. Expected better for the price.",
+    "hostReply": "We appreciate your feedback. We'll review the pricing and car condition to improve.",
+    "rating": 3
+  },
+  {
+    "comment": "Wonderful experience. The car was in top condition and the host was very helpful.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was not as described and had some minor damages.",
+    "hostReply": "We're sorry about the discrepancies. We'll update the description and repair any damages.",
+    "rating": 2
+  },
+  {
+    "comment": "The host was friendly and the car was perfect for our needs.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "Had a few issues with the car's battery. The host was responsive, though.",
+    "hostReply": "Thank you for letting us know. We’ll have the battery checked to prevent future issues.",
+    "rating": 3
+  },
+  {
+    "comment": "Very smooth rental process. The car was great and as advertised.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car was delivered late and the host did not communicate well.",
+    "hostReply": "We apologize for the delay and communication issues. We'll address this to improve our service.",
+    "rating": 2
+  },
+  {
+    "comment": "Great car, great host. Everything went as planned.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car's interior was not cleaned properly. Disappointing experience.",
+    "hostReply": "We’re sorry about the cleanliness. We’ll make sure to improve our cleaning process.",
+    "rating": 2
+  },
+  {
+    "comment": "Fantastic service! The car was exactly what we were looking for.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was good, but the rental process was confusing.",
+    "hostReply": "Thank you for your feedback. We'll work on making the rental process clearer and more efficient.",
+    "rating": 3
+  },
+  {
+    "comment": "Very happy with the rental. The car was in excellent condition.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car had some issues with the transmission. The host was helpful in resolving them.",
+    "hostReply": "We appreciate your patience and are glad we could assist. We'll ensure this issue is fixed.",
+    "rating": 3
+  },
+  {
+    "comment": "The host was very accommodating. The car met all our expectations.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car was not as clean as expected and had some technical issues.",
+    "hostReply": "Sorry for the inconvenience. We'll make sure to address both the cleanliness and technical issues.",
+    "rating": 2
+  },
+  {
+    "comment": "Excellent car and service. Would definitely rent again.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "There was a mix-up with the booking dates, but the host resolved it quickly.",
+    "hostReply": "Thank you for your understanding. We’ll work on preventing booking errors in the future.",
+    "rating": 4
+  },
+  {
+    "comment": "The car was good, but the pickup process was not very smooth.",
+    "hostReply": "We’re sorry about the pickup process. We’ll improve our procedures to make it more efficient.",
+    "rating": 3
+  },
+  {
+    "comment": "The car was perfect for our trip. Great experience overall.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was old and had several issues. Not what I expected.",
+    "hostReply": "We apologize for the condition of the car. We’ll review and address the issues.",
+    "rating": 2
+  },
+  {
+    "comment": "The host was professional and the car was in great shape.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The rental process was confusing and the car was not very clean.",
+    "hostReply": "Thank you for your feedback. We’ll work on improving both the process and cleanliness.",
+    "rating": 2
+  },
+  {
+    "comment": "Fantastic rental experience! The car was just what we needed.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car had some minor issues, but the host was quick to help.",
+    "hostReply": "We appreciate your patience. We'll ensure the car is thoroughly checked and repaired.",
+    "rating": 3
+  },
+  {
+    "comment": "Great service and a very nice car. Will definitely use this service again.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car had several mechanical issues that were not disclosed in the listing.",
+    "hostReply": "We’re sorry for any inconvenience. We'll update the listing and check the car thoroughly.",
+    "rating": 2
+  },
+  {
+    "comment": "Good value for money. The car was reliable and comfortable.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The host was friendly, but the car was not well-maintained.",
+    "hostReply": "Thank you for your feedback. We’ll ensure the car is better maintained in the future.",
+    "rating": 3
+  },
+  {
+    "comment": "The car was exactly as advertised and the service was excellent.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "Had some trouble with the car's features, but overall it was a decent experience.",
+    "hostReply": "We’re sorry for the trouble with the car's features. We'll work on improving them.",
+    "rating": 3
+  },
+  {
+    "comment": "The car was clean and comfortable. Great rental experience.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "There was a delay in the car pickup, which affected our plans.",
+    "hostReply": "We apologize for the delay. We’ll improve our timing to prevent such issues.",
+    "rating": 3
+  },
+  {
+    "comment": "Excellent car and service. Would highly recommend this host.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was nice but had some issues with the brakes. The host was helpful.",
+    "hostReply": "Thank you for letting us know. We’ll ensure the brakes are checked and repaired.",
+    "rating": 3
+  },
+  {
+    "comment": "The rental process was straightforward and the car was in good condition.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car's battery died during our trip. The host was not very responsive.",
+    "hostReply": "We’re sorry for the inconvenience and the response delay. We’ll address these issues.",
+    "rating": 2
+  },
+  {
+    "comment": "Great experience overall. The car was exactly what we needed for our trip.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car had some issues with the air conditioning, but the host resolved it quickly.",
+    "hostReply": "We appreciate your patience. We'll ensure the air conditioning is fixed and working properly.",
+    "rating": 3
+  },
+  {
+    "comment": "Very satisfied with the rental. The car was clean and well-maintained.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car was not in the best condition and the host was not very communicative.",
+    "hostReply": "We apologize for the car's condition and communication issues. We’ll work on these areas.",
+    "rating": 2
+  },
+  {
+    "comment": "The host was very accommodating and the car was great for our needs.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car was good, but there were some issues with the booking process.",
+    "hostReply": "Thank you for your feedback. We’ll work on improving the booking process.",
+    "rating": 3
+  },
+  {
+    "comment": "Excellent car and service. Very happy with the rental experience.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car had some issues with the navigation system. The host was quick to help.",
+    "hostReply": "We’re glad we could assist. We’ll ensure the navigation system is updated.",
+    "rating": 3
+  },
+  {
+    "comment": "The car was just as advertised and the host was very professional.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car's interior was not very clean, and the pickup process was delayed.",
+    "hostReply": "We apologize for the cleanliness and delay issues. We'll work on improving these aspects.",
+    "rating": 2
+  },
+  {
+    "comment": "Great rental experience. The car was in excellent condition.",
+    "hostReply": null,
+    "rating": 5
+  },
+  {
+    "comment": "The car had some mechanical issues and the host was not very helpful.",
+    "hostReply": "We’re sorry for the mechanical issues and lack of assistance. We’ll work on addressing these problems.",
+    "rating": 2
+  },
+  {
+    "comment": "The car was exactly what we needed. Great service and easy rental process.",
+    "hostReply": null,
+    "rating": 4
+  },
+  {
+    "comment": "The car was good but had some issues with the tires. The host was responsive.",
+    "hostReply": "We appreciate your patience. We'll check the tires and make necessary repairs.",
+    "rating": 3
+  },
+  {
+    "comment": "Fantastic car and service. Would definitely rent again.",
+    "hostReply": null,
+    "rating": 5
+  }
+]

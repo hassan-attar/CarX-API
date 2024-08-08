@@ -1,6 +1,7 @@
 import carSampleData from "./car.sample.json";
 import userSampleData from "./user.sample.json";
 import hostSampleData from "./host.sample.json";
+import reviewSampleData from "./review.sample.json"
 import {DB} from "../../db";
 
 const availabilityData = [
@@ -103,6 +104,9 @@ export default async function loadSampleData(db: DB) {
         const cars = await db.Car.findAll({
             attributes: ["carId"],
         });
+        const users = await db.User.findAll({
+            attributes: ["userId"],
+        });
         console.log("Cars Added: ", cars);
         await Promise.all(cars.flatMap((car, i) => {
             return availabilityData[i]!.map(availabilityPair => {
@@ -121,6 +125,22 @@ export default async function loadSampleData(db: DB) {
             })
         }))
         console.log("Car Availability Created.");
+        await Promise.all(
+            reviewSampleData.map((review, i) => {
+                return db.Review.create({
+                    // @ts-ignore
+                    userId: users[i % users.length].userId,
+                    // @ts-ignore
+                    hostId: hosts[i % hosts.length].hostId,
+                    // @ts-ignore
+                    carId: cars[i % cars.length].carId,
+                    comment: review.comment,
+                    hostReply: review.hostReply || undefined,
+                    rating: review.rating
+                })
+            })
+        )
+        console.log("Reviews Created.");
     }catch(err){
         console.error("Error in Loading Sample Data: ", err);
         process.exit(1);

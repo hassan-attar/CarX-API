@@ -150,7 +150,8 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             constraints: true,
         });
         Car.hasMany(models.Review, {
-            foreignKey: "reviewId",
+            foreignKey: "carId",
+            as: "Reviews",
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
             constraints: true,
