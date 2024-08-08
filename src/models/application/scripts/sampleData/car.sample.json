@@ -10,7 +10,7 @@
     "price": 69.99,
     "currency": "USD",
     "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/rav4-1_trrvgg.jpg",
+    "headerImage": "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?q=80&w=3031&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "address": "2606 East 41st Ave",
     "postalCode": "V5R2W7",
     "city": "Vancouver",
@@ -18,7 +18,8 @@
     "country": "Canada",
     "minRentDays": 1,
     "maxRentDays": 30,
-    "plateNumber": "ANYWAY"
+    "plateNumber": "ANYWAY",
+    "description": "Discover the 2024 Toyota Rav4, a modern SUV designed for both comfort and adventure. This vehicle boasts a spacious interior, perfect for family outings or long drives. With its automatic transmission and efficient gasoline engine, it offers a smooth and reliable driving experience. Enjoy the convenience of 200 km of included distance, with additional mileage available at a minimal extra cost. Its sleek design and advanced features ensure you travel in style and comfort. Whether you're navigating city streets or exploring the great outdoors, the Rav4 is your ideal companion."
   },
   {
     "make": "Honda",
@@ -31,7 +32,7 @@
     "price": 54.00,
     "currency": "USD",
     "fuelType": "hybrid",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754988/civic-2_heyj3z.jpg",
+    "headerImage": "https://images.unsplash.com/photo-1687019497015-c3cdd5bc88b1?q=80&w=2825&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "galleryImages": [
       "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/civic-1_ouudin.jpg"
     ],
@@ -48,7 +49,8 @@
     "tripCount": 8,
     "minRentDays": 2,
     "maxRentDays": 20,
-    "plateNumber": "XYZ5678"
+    "plateNumber": "XYZ5678",
+    "description": "Experience the blend of efficiency and style with the 2019 Honda Civic. This sedan is perfect for city driving and long trips alike, featuring a manual transmission and a hybrid engine for excellent fuel economy. With 400 km of included distance and a low extra charge for additional kilometers, it offers flexibility for your driving needs. Enjoy the modern design and reliable performance that come with the Civic's reputation. Its high rating and positive reviews reflect its outstanding value and comfort."
   },
   {
     "make": "Tesla",
@@ -61,7 +63,7 @@
     "price": 60.00,
     "currency": "USD",
     "fuelType": "electric",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754989/tesla3_rt94ba.jpg",
+    "headerImage": "https://images.unsplash.com/photo-1635451048957-3beb7175f57f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "galleryImages": [
       "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/tesla-1_gpvpms.jpg",
       "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/tesla-2_v3g05i.jpg"
@@ -79,7 +81,8 @@
     "tripCount": 15,
     "minRentDays": 3,
     "maxRentDays": 25,
-    "plateNumber": "TESLA123"
+    "plateNumber": "TESLA123",
+    "description": "Introducing the 2021 Tesla Model 3, a cutting-edge electric sedan designed for a modern driving experience. With its automatic transmission and impressive range, this vehicle is ideal for those who value both performance and sustainability. The Model 3 comes with 300 km of included distance and an additional charge for extra kilometers. Its high rating and exceptional reviews highlight its advanced technology and comfort. Enjoy the future of driving with Tesla's innovative features and stylish design."
   },
   {
     "make": "Ford",
@@ -92,7 +95,7 @@
     "price": 85.00,
     "currency": "USD",
     "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/mustang-1_a7x3k9.jpg",
+    "headerImage": "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "address": "1234 Maple Ave",
     "postalCode": "94103",
     "city": "San Francisco",
@@ -100,7 +103,8 @@
     "country": "USA",
     "minRentDays": 1,
     "maxRentDays": 14,
-    "plateNumber": "MUSTANG"
+    "plateNumber": "MUSTANG",
+    "description": "Unleash your driving passion with the 2023 Ford Mustang. This iconic sedan, equipped with a manual transmission, delivers thrilling performance and classic styling. With 250 km of included distance and a competitive extra charge for additional kilometers, it's perfect for those who love driving. Enjoy the Mustang's powerful engine and distinctive design, making every journey an exhilarating experience. Ideal for both daily commutes and weekend escapes."
   },
   {
     "make": "Chevrolet",
@@ -113,7 +117,7 @@
     "price": 75.00,
     "currency": "USD",
     "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754988/tahoe-1_i5o5n9.jpg",
+    "headerImage": "https://images.unsplash.com/photo-1663530079910-3fff9509136a?q=80&w=2974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "address": "7890 Oakwood Dr",
     "postalCode": "30301",
     "city": "Atlanta",
@@ -121,7 +125,8 @@
     "country": "USA",
     "minRentDays": 2,
     "maxRentDays": 21,
-    "plateNumber": "TAHOE123"
+    "plateNumber": "TAHOE123",
+    "description": "Discover the 2022 Chevrolet Tahoe, a spacious SUV designed for comfort and versatility. This automatic vehicle comes with 300 km of included distance and a reasonable extra charge for additional kilometers. The Tahoe is perfect for family trips or transporting gear with its ample cargo space and robust performance. Enjoy the smooth ride and modern features that make it a great choice for both urban and rural adventures."
   },
   {
     "make": "BMW",
@@ -134,7 +139,7 @@
     "price": 95.00,
     "currency": "USD",
     "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754989/x5-1_j0d3m2.jpg",
+    "headerImage": "https://images.unsplash.com/photo-1615908397724-6dc711db34a7?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "address": "3456 Birch Blvd",
     "postalCode": "60614",
     "city": "Chicago",
@@ -142,7 +147,8 @@
     "country": "USA",
     "minRentDays": 3,
     "maxRentDays": 18,
-    "plateNumber": "BMWX5"
+    "plateNumber": "BMWX5",
+    "description": "Experience luxury and performance with the 2021 BMW X5. This automatic SUV offers a blend of power and comfort with its 250 km of included distance and a premium driving experience. The X5's elegant design and advanced features ensure a high level of sophistication and driving pleasure. Ideal for those who seek both style and capability in their vehicle."
   },
   {
     "make": "Audi",
@@ -155,119 +161,15 @@
     "price": 70.00,
     "currency": "USD",
     "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/audi-a4-1_k6sm4r.jpg",
-    "address": "2345 Walnut St",
-    "postalCode": "75201",
-    "city": "Dallas",
-    "region": "TX",
-    "country": "USA",
-    "minRentDays": 2,
-    "maxRentDays": 22,
-    "plateNumber": "AUDI4"
-  },
-  {
-    "make": "Hyundai",
-    "model": "Elantra",
-    "transmission": "manual",
-    "year": 2022,
-    "type": "sedan",
-    "distanceIncludedKm": 350,
-    "extraDistanceCharge": 0.22,
-    "price": 55.00,
-    "currency": "USD",
-    "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754988/elantra-1_sj6kd8.jpg",
-    "address": "5678 Cedar Ln",
+    "headerImage": "https://images.unsplash.com/photo-1710011116514-d2b8a7a97c54?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "address": "5678 Cedar Lane",
     "postalCode": "98101",
     "city": "Seattle",
     "region": "WA",
     "country": "USA",
     "minRentDays": 1,
-    "maxRentDays": 15,
-    "plateNumber": "ELANTRA"
-  },
-  {
-    "make": "Nissan",
-    "model": "Altima",
-    "transmission": "auto",
-    "year": 2023,
-    "type": "sedan",
-    "distanceIncludedKm": 300,
-    "extraDistanceCharge": 0.27,
-    "price": 60.00,
-    "currency": "USD",
-    "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754989/altima-1_r8jbsk.jpg",
-    "address": "6789 Elm St",
-    "postalCode": "10001",
-    "city": "New York",
-    "region": "NY",
-    "country": "USA",
-    "minRentDays": 2,
-    "maxRentDays": 20,
-    "plateNumber": "ALTIMA"
-  },
-  {
-    "make": "Subaru",
-    "model": "Outback",
-    "transmission": "auto",
-    "year": 2021,
-    "type": "suv",
-    "distanceIncludedKm": 250,
-    "extraDistanceCharge": 0.26,
-    "price": 72.00,
-    "currency": "USD",
-    "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754987/outback-1_zf2xkh.jpg",
-    "address": "4567 Pine St",
-    "postalCode": "85001",
-    "city": "Phoenix",
-    "region": "AZ",
-    "country": "USA",
-    "minRentDays": 2,
-    "maxRentDays": 18,
-    "plateNumber": "OUTBACK"
-  },
-  {
-    "make": "Volkswagen",
-    "model": "Jetta",
-    "transmission": "manual",
-    "year": 2019,
-    "type": "sedan",
-    "distanceIncludedKm": 300,
-    "extraDistanceCharge": 0.23,
-    "price": 50.00,
-    "currency": "USD",
-    "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754988/jetta-1_hvbgc8.jpg",
-    "address": "7890 Birch St",
-    "postalCode": "30301",
-    "city": "Atlanta",
-    "region": "GA",
-    "country": "USA",
-    "minRentDays": 1,
-    "maxRentDays": 12,
-    "plateNumber": "JETTA"
-  },
-  {
-    "make": "Jeep",
-    "model": "Wrangler",
-    "transmission": "manual",
-    "year": 2023,
-    "type": "suv",
-    "distanceIncludedKm": 200,
-    "extraDistanceCharge": 0.28,
-    "price": 80.00,
-    "currency": "USD",
-    "fuelType": "gasoline",
-    "headerImage": "https://res.cloudinary.com/doq9rkost/image/upload/v1720754989/wrangler-1_xohjlx.jpg",
-    "address": "7890 Oak St",
-    "postalCode": "60611",
-    "city": "Chicago",
-    "region": "IL",
-    "country": "USA",
-    "minRentDays": 3,
     "maxRentDays": 30,
-    "plateNumber": "WRANGLER"
+    "plateNumber": "AUDI4",
+    "description": "Drive in elegance with the 2020 Audi A4. This luxury sedan combines sleek design with a powerful automatic transmission and efficient gasoline engine. With 200 km of included distance and an additional charge for extra kilometers, it offers a refined driving experience. Perfect for city driving or longer trips, the A4 provides comfort and sophistication in every journey."
   }
 ]
