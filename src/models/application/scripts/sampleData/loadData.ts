@@ -106,15 +106,18 @@ export default async function loadSampleData(db: DB) {
         console.log("Cars Added: ", cars);
         await Promise.all(cars.flatMap((car, i) => {
             return availabilityData[i]!.map(availabilityPair => {
-                if(new Date(availabilityPair[0]!) < new Date()){
-                    return []; // skip the dates that are from the past
-                }
+                // if(new Date(availabilityPair[0]!) < new Date()){
+                //     return []; // skip the dates that are from the past
+                // }
                 console.log(`Adding carID ${car.carId} from ${availabilityPair[0]} to ${availabilityPair[1]}`)
                 return db.CarAvailability.create({
                     carId: car.carId,
                     from: new Date(availabilityPair[0]!),
                     to: new Date(availabilityPair[1]!),
-                });
+                },
+                    {
+                        validate: false // For development, to allow new availability that start from the past
+                    });
             })
         }))
         console.log("Car Availability Created.");
