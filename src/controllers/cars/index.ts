@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import db from "../../models/application/db";
 import carFilterSchema from "./schema";
-import { Op } from "sequelize";
+import {Op} from "sequelize";
+
 
 async function getCars(req: Request, res: Response) {
     try {
@@ -9,6 +10,7 @@ async function getCars(req: Request, res: Response) {
             abortEarly: false,
         });
         if (error) return res.status(422).json({ error: error.details });
+        console.log((filters))
         const availabilities = await db.CarAvailability.findAll({
             where: {
                 [Op.and]: {
@@ -27,6 +29,15 @@ async function getCars(req: Request, res: Response) {
                         (availability) => availability.carId,
                     ),
                 },
+                ...(filters.country ? { country: filters.country } : []),
+                ...(filters.region ? { region: filters.region } : []),
+                ...(filters.city ? { city: {[Op.iLike]: `%${filters.city}%`}} : []),
+                ...(filters.priceMin || filters.priceMax ? {
+                    price: {[Op.and]: {
+                            [Op.gte]: filters.priceMin || 0,
+                            [Op.lte]: filters.priceMax || 1000
+                        }}
+                }: [])
             },
             limit: filters.limit,
             offset: filters.limit * (filters.page - 1),
