@@ -1,6 +1,9 @@
 import { Sequelize, DataTypes as SequelizeDataTypes } from "sequelize";
 import { Car, Models, Host } from "./schemaTypes";
 import { FieldLength } from "./constants";
+import {isCountryCodeValid} from "./validators";
+import countries from "i18n-iso-countries";
+
 
 export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
     Car.init(
@@ -92,8 +95,16 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 allowNull: false,
             },
             country: {
-                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
+                type: DataTypes.CHAR(2), // ISO 3166-1 alpha-2 code
                 allowNull: false,
+                validate: {
+                    isCountryCodeValid
+                },
+                set(val: string) {
+                    const alpha2Code = countries.getAlpha2Code(val, "en") || countries.toAlpha2(val)
+                    if (!alpha2Code) throw new Error("Invalid country code. Please provide a valid ISO 3166-1 alpha-2, alpha-3, or numeric code.");
+                    this.setDataValue("country", alpha2Code);
+                }
             },
             avgRating: {
                 type: DataTypes.FLOAT,
