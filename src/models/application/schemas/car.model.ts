@@ -43,6 +43,9 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 type: DataTypes.ENUM("sedan", "suv", "truck", "van"),
                 allowNull: false,
             },
+            description: {
+                type: DataTypes.STRING(FieldLength.XXL_FIELD_LENGTH),
+            },
             distanceIncludedKm: {
                 type: DataTypes.SMALLINT,
                 allowNull: false,

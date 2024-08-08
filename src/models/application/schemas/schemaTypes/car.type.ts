@@ -12,6 +12,7 @@ interface OptionalCarAttributes {
     tripCount?: number;
     minRentDays?: number;
     maxRentDays?: number;
+    description?: string;
 }
 
 interface CarAttributes extends OptionalCarAttributes {
@@ -54,8 +55,8 @@ export class Car
     public currency!: string;
     public fuelType!: "gasoline" | "hybrid" | "electric";
     public headerImage!: string;
-    public galleryImages!: string[];
-    public location!: {
+    public galleryImages?: string[];
+    public location?: {
         type: "Point";
         coordinates: [number, number];
     } | null;
@@ -64,11 +65,12 @@ export class Car
     public city!: string;
     public region!: string;
     public country!: string;
-    public avgRating!: number;
-    public tripCount!: number;
-    public minRentDays!: number;
-    public maxRentDays!: number;
+    public avgRating?: number;
+    public tripCount?: number;
+    public minRentDays?: number;
+    public maxRentDays?: number;
     public plateNumber!: string;
+    public description?: string;
 
     // timestamps!
     public readonly createdAt!: Date;
