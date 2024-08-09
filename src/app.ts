@@ -10,6 +10,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./swaggerDocs";
 import CarsRoutes from "./routes/cars";
 import authRoutes from "./routes/auth";
+import accountsRouter from "./routes/accounts";
+import errorHandlingMiddleware from "./middlewares/errorHandlingMiddleware";
 const app = express();
 
 // Security
@@ -52,5 +54,16 @@ app.use("/cars", CarsRoutes);
  *   description: User Authentication Routes
  */
 app.use("/auth", authRoutes);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Accounts
+ *   description: User Accounts Routes
+ */
+app.use("/accounts", accountsRouter);
+
+
+app.use(errorHandlingMiddleware)
 
 export default app;

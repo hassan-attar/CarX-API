@@ -44,9 +44,9 @@ export async function signup(req: Request, res: Response) {
         });
         await appDb.User.create({
             userId: user.userId,
-            firstName: body.firstName
+            firstName: body.firstName,
+            lastName: body.lastName,
         })
-
         return res.status(201).json({ success: true });
     } catch (err) {
         if (err instanceof UniqueConstraintError) {

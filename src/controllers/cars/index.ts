@@ -1,16 +1,19 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import db from "../../models/application/db";
 import carFilterSchema from "./schema";
 import {Op} from "sequelize";
+import ValidationError from "../../errors/ClientError/ValidationError";
+import ItemNotFoundError from "../../errors/ClientError/ItemNotFoundError";
+import {StatusCodes} from "http-status-codes";
 
 
-async function getCars(req: Request, res: Response) {
+const getCars: RequestHandler = async(req, res, next) => {
     try {
         const { error, value: filters } = carFilterSchema.validate(req.query, {
             abortEarly: false,
         });
-        if (error) return res.status(422).json({ error: error.details });
-        console.log((filters))
+        if (error) return next(new ValidationError({message: "Invalid query parameters; Please fix your mistakes and try again.", details: error.details}))
+
         const availabilities = await db.CarAvailability.findAll({
             where: {
                 [Op.and]: {
@@ -49,12 +52,13 @@ async function getCars(req: Request, res: Response) {
     }
 }
 
-async function getCarById(req: Request, res: Response) {
+const getCarById: RequestHandler = async (req, res, next) => {
     try {
         const car = await db.Car.findOne({
             attributes: { exclude: ["hostId"] },
             where: { carId: req.params.carId },
-            include: {
+            include: [
+                {
                 model: db.Host,
                 as: "Host",
                 attributes: [
@@ -64,12 +68,34 @@ async function getCarById(req: Request, res: Response) {
                     "createdAt",
                     "profileImage",
                 ],
-            },
+                },
+                {
+                    model: db.Review,
+                    as: "Reviews",
+                    attributes: [
+                        "reviewId",
+                        "comment",
+                        "hostReply",
+                        "rating",
+                        "userId"
+                    ],
+                    include: [
+                        {
+                            model: db.User,
+                            as: "User",
+                            attributes: [
+                                "firstName",
+                                "lastName",
+                                "profileImage",
+                            ],
+                        }
+                    ],
+                }],
         });
         if (!car) {
-            return res.status(404).json("Car not found");
+            return next(new ItemNotFoundError())
         }
-        return res.status(200).json(car);
+        return res.status(StatusCodes.OK).json(car);
     } catch (err) {
         console.log("Error in getCars: ", err);
         res.status(500).json("Something went Wrong");
