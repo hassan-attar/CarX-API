@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { UniqueConstraintError } from "sequelize";
 import authDb from "../../../models/auth/db";
+import appDb from "../../../models/application/db";
 import passport from "passport";
 import { signupSchema, loginSchema } from "./schema";
 
@@ -37,12 +38,15 @@ export async function signup(req: Request, res: Response) {
     }
 
     try {
-        await authDb.User.create({
+        const user = await authDb.User.create({
             email: body.email,
             passwordHash: body.password,
-            firstName: body.firstName,
-            lastName: body.lastName,
         });
+        await appDb.User.create({
+            userId: user.userId,
+            firstName: body.firstName
+        })
+
         return res.status(201).json({ success: true });
     } catch (err) {
         if (err instanceof UniqueConstraintError) {

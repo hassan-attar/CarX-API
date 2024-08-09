@@ -6,8 +6,6 @@ interface OptionalUserAttributes {
     lastPassChangeDate?: Date;
     lastPasswordChange?: Date;
     passChangeHash?: string;
-    dob?: Date;
-    profileImage?: string;
     hasEmailVerified?: boolean;
     hasPhoneVerified?: boolean;
     failedLoginAttempts?: number;
@@ -18,8 +16,6 @@ interface OptionalUserAttributes {
 }
 
 interface UserAttributes extends OptionalUserAttributes {
-    firstName: string;
-    lastName: string;
     email: string;
     passwordHash: string;
 }
@@ -32,8 +28,6 @@ export class User
     implements UserAttributes
 {
     public userId!: string;
-    public firstName!: string;
-    public lastName!: string;
     public email!: string;
     public passwordHash!: string;
     public lastLogin?: Date;
@@ -42,8 +36,6 @@ export class User
     public lastPassChangeDate?: Date;
     public lastPasswordChange?: Date;
     public passChangeHash?: string;
-    public dob?: Date;  // Date of birth
-    public profileImage?: string;
     public hasEmailVerified?: boolean;
     public hasPhoneVerified?: boolean;
     public failedLoginAttempts?: number;

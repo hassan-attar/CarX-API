@@ -36,6 +36,7 @@ initModelFunctions.forEach((initModel) => {
     // @ts-ignore
     db[model.name] = model;
 });
+
 Object.values(db).forEach((model) => {
     // @ts-ignore
     if (model.associate) {

@@ -13,18 +13,6 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 primaryKey: true,
                 defaultValue: DataTypes.UUIDV4,
             },
-            firstName: {
-                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
-                allowNull: false,
-                validate: {notEmpty: true}
-            },
-            lastName: {
-                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
-                allowNull: false,
-                validate: {
-                    notEmpty: true,
-                }
-            },
             email: {
                 type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
                 allowNull: false,
@@ -67,15 +55,6 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             },
             passChangeHash: {
                 type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
-            },
-            dob: {
-                type: DataTypes.DATEONLY,
-                validate: {
-                    isDate: true,
-                }
-            },
-            profileImage: {
-                type: DataTypes.STRING(FieldLength.XL_FIELD_LENGTH),
             },
             hasEmailVerified: {
                 type: DataTypes.BOOLEAN,

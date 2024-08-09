@@ -8,7 +8,6 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             userId: {
                 type: DataTypes.UUID,
                 primaryKey: true,
-                defaultValue: DataTypes.UUIDV4,
             },
             firstName: {
                 type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
@@ -18,29 +17,8 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
                 allowNull: false,
             },
-            email: {
-                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
-                allowNull: false,
-                unique: true,
-            },
-            phone: {
-                type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
-            },
-            password: {
-                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
-                allowNull: false,
-            },
             profileImage: {
                 type: DataTypes.STRING(FieldLength.L_FIELD_LENGTH),
-            },
-            passChangedOn: {
-                type: DataTypes.DATE,
-            },
-            passChangedRequestedOn: {
-                type: DataTypes.DATE,
-            },
-            passChangeHash: {
-                type: DataTypes.STRING(FieldLength.M_FIELD_LENGTH),
             },
             DLN: {
                 type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),
