@@ -2,9 +2,6 @@
   {
     "firstName": "Katy",
     "lastName": "Green",
-    "email": "michael.brown@example.com",
-    "phone": "+1222333444",
-    "password": "12345678",
     "DLN": "D123456789",
     "DLExpirationDate": "2025-01-15",
     "DLCountry": "USA",
@@ -15,9 +12,6 @@
   {
     "firstName": "Sarah",
     "lastName": "Connor",
-    "email": "sarah.connor@example.com",
-    "phone": "+1333444555",
-    "password": "12345678",
     "DLN": "C987654321",
     "DLExpirationDate": "2026-02-20",
     "DLCountry": "USA",
@@ -28,16 +22,11 @@
   {
     "firstName": "David",
     "lastName": "Williams",
-    "email": "david.williams@example.com",
-    "password": "12345678",
     "profileImage": "https://plus.unsplash.com/premium_photo-1672907031609-16b4d3db8bc6?q=80&w=2815&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     "firstName": "Alice",
     "lastName": "Johnson",
-    "email": "alice.johnson@example.com",
-    "phone": "+1444555666",
-    "password": "password123",
     "DLN": "A123456789",
     "DLExpirationDate": "2024-11-01",
     "DLCountry": "USA",
@@ -48,9 +37,6 @@
   {
     "firstName": "John",
     "lastName": "Domino",
-    "email": "john.domino@example.com",
-    "phone": "+1555666777",
-    "password": "password123",
     "DLN": "B234567890",
     "DLExpirationDate": "2025-03-12",
     "DLCountry": "USA",
@@ -61,9 +47,6 @@
   {
     "firstName": "Emma",
     "lastName": "Brown",
-    "email": "emma.brown@example.com",
-    "phone": "+1666777888",
-    "password": "mypassword",
     "DLN": "E345678901",
     "DLExpirationDate": "2027-06-30",
     "DLCountry": "USA",
@@ -74,9 +57,6 @@
   {
     "firstName": "Robert",
     "lastName": "Smith",
-    "email": "robert.smith@example.com",
-    "phone": "+1777888999",
-    "password": "securepassword",
     "DLN": "R456789012",
     "DLExpirationDate": "2025-08-22",
     "DLCountry": "USA",
@@ -87,9 +67,6 @@
   {
     "firstName": "Laura",
     "lastName": "Wilson",
-    "email": "laura.wilson@example.com",
-    "phone": "+1888999000",
-    "password": "password321",
     "DLN": "L567890123",
     "DLExpirationDate": "2026-04-10",
     "DLCountry": "USA",

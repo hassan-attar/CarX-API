@@ -7,7 +7,7 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
         {
             userId: {
                 type: DataTypes.UUID,
-                primaryKey: true,
+                primaryKey: true
             },
             firstName: {
                 type: DataTypes.STRING(FieldLength.XS_FIELD_LENGTH),

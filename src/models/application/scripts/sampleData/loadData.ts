@@ -3,6 +3,7 @@ import userSampleData from "./user.sample.json";
 import hostSampleData from "./host.sample.json";
 import reviewSampleData from "./review.sample.json"
 import {DB} from "../../db";
+import {v4} from "uuid"
 
 const availabilityData = [
     // Car ID 1
@@ -80,10 +81,10 @@ const availabilityData = [
 
 export default async function loadSampleData(db: DB) {
     try{
-        await db.Host.bulkCreate(hostSampleData)
+        await db.Host.bulkCreate(hostSampleData.map(host => ({...host, hostId: v4()})))
         console.log("Host Data Created.");
         // @ts-ignore
-        await db.User.bulkCreate(userSampleData)
+        await db.User.bulkCreate(userSampleData.map(user => ({...user, userId: v4()})))
         console.log("User Data Created.");
         const hosts = await db.Host.findAll({
             attributes: ["hostId"],
