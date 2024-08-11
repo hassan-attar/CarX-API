@@ -1,5 +1,6 @@
 import Joi from "joi";
-import countryAndRegionSchema from "../../validators/countryAndRegion";
+import regionSchemaCreator from "../../validators/region";
+import countrySchema from "../../validators/country";
 
 interface CarFilter {
     priceMin?: number;
@@ -58,7 +59,9 @@ const carFilterSchema = Joi.object<CarFilter>({
     availableTo: Joi.date().iso().min(Joi.ref("availableFrom")).optional(),
     page: Joi.number().integer().positive().default(1).optional(),
     limit: Joi.number().integer().positive().max(100).default(10).optional(),
-}).concat(countryAndRegionSchema);
+    country: countrySchema.max(100).optional(),
+    region: regionSchemaCreator().max(100).optional()
+});
 
 
 export default carFilterSchema;
