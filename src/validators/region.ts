@@ -20,7 +20,7 @@ const validateRegion = (region: string, helpers: Joi.CustomHelpers) => {
 }
 
 
-const countryAndRegionSchema =  Joi.object({
+const countryAndRegionSchema = Joi.object({
     country: countrySchema,
     region: Joi.string()
         .max(100)
