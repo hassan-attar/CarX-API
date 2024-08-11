@@ -1,12 +1,13 @@
 import {BaseError, BaseErrorOptions} from "../BaseError/BaseError";
 
 export interface ClientErrorOptions {
+    errorType?: string;
     message?: string;
     details?: any[]
 }
 
-export abstract class ClientError extends BaseError{
-    protected constructor(options: BaseErrorOptions) {
+export class ClientError extends BaseError{
+    constructor(options: BaseErrorOptions) {
         super(options);
     }
 }

@@ -1,11 +1,11 @@
 import {BaseError} from "../BaseError/BaseError";
 
 export interface ServerErrorOption {
-    errorObj: Error;
+    errorObj: Error | null;
 }
 
 abstract class ServerError extends BaseError{
-    public errorObj: Error;
+    public errorObj: Error | null;
 
     protected constructor(options: ServerErrorOption) {
         super({errorType: ServerError.name});
