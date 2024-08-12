@@ -20,7 +20,7 @@ interface CarAttributes extends OptionalCarAttributes {
     model: string;
     transmission: "auto" | "manual";
     year: number;
-    type: "sedan" | "suv" | "truck" | "van";
+    type: "sedan" | "suv" | "truck" | "van" | "coupe";
     distanceIncludedKm: number;
     extraDistanceCharge: number;
     price: number;

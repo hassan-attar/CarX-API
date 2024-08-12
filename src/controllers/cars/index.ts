@@ -40,10 +40,26 @@ const getCars: RequestHandler = async(req, res, next) => {
                             [Op.gte]: filters.priceMin || 0,
                             [Op.lte]: filters.priceMax || 1000
                         }}
-                }: [])
+                }: []),
+                ...(filters.lng && filters.lat ? {
+                    [Op.and]: db.sequelize.literal(
+                        `ST_DWithin(
+                    "location", 
+                    ST_MakePoint(:lng, :lat)::geography, 
+                    :radius
+                )`
+                    )
+                } : [])
             },
             limit: filters.limit,
             offset: filters.limit * (filters.page - 1),
+            ...(filters.lat && filters.lng ? {
+                replacements: {
+                    lng: filters.lng,
+                    lat: filters.lat,
+                    radius: filters.radius ? filters.radius * 1000 : (50 * 1000)
+                }
+            } : [])
         });
         return res.status(200).json(cars);
     } catch (err) {

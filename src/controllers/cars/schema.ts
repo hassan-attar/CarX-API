@@ -22,6 +22,9 @@ interface CarFilter {
     availableTo: string; // ISO date string
     page: number;
     limit: number;
+    lat?: number;
+    lng?: number;
+    radius?: number;
 }
 
 
@@ -60,8 +63,27 @@ const carFilterSchema = Joi.object<CarFilter>({
     page: Joi.number().integer().positive().default(1).optional(),
     limit: Joi.number().integer().positive().max(100).default(10).optional(),
     country: countrySchema.max(100).optional(),
-    region: regionSchemaCreator().max(100).optional()
-});
+    region: regionSchemaCreator().max(100).optional(),
+    lat: Joi.number().min(-90).max(90).optional(),
+    lng: Joi.number().min(-180).max(180).when("lat", {
+        is: Joi.exist(),
+        then: Joi.required(),
+        otherwise: Joi.optional()
+    }),
+    radius: Joi.number().min(1).when("lng", {
+        is: Joi.exist(),
+        then: Joi.optional(),
+        otherwise: Joi.forbidden().messages({
+            "any.unknown": "The radius field is forbidden when lng and lat is not present."
+        })
+    }).when("lat",{
+        is: Joi.exist(),
+        then: Joi.optional(),
+        otherwise: Joi.forbidden().messages({
+            "any.unknown": "The radius field is forbidden when lng and lat is not present."
+        })
+    })
+}).and("lat", "lng");
 
 
 export default carFilterSchema;

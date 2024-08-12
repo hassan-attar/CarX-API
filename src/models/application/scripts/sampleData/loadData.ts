@@ -3,6 +3,8 @@ import userSampleData from "./user.sample.json";
 import hostSampleData from "./host.sample.json";
 import reviewSampleData from "./review.sample.json"
 import {DB} from "../../db";
+import {getCoordinates} from "../../../../utils/map";
+import {validateCountryCode} from "../../../../validators/country";
 import {v4} from "uuid"
 
 const availabilityData = [
@@ -75,6 +77,55 @@ const availabilityData = [
         ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
         ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
         ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 11
+    [
+        ['2024-08-12T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 12
+    [
+        ['2024-08-13T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 13
+    [
+        ['2024-08-13T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 14
+    [
+        ['2024-08-13T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 15
+    [
+        ['2024-08-13T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 16
+    [
+        ['2024-08-13T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
+    ],
+    // Car ID 17
+    [
+        ['2024-08-13T07:00:00Z', '2024-08-27T07:00:00Z'],
+        ['2024-09-03T08:00:00Z', '2024-09-17T08:00:00Z'],
+        ['2024-09-24T09:00:00Z', '2024-10-08T09:00:00Z'],
+        ['2024-10-12T10:00:00Z', '2024-10-26T10:00:00Z']
     ]
 ];
 
@@ -90,16 +141,19 @@ export default async function loadSampleData(db: DB) {
             attributes: ["hostId"],
         });
         await Promise.all(
-            hosts.map((host, i) => {
-                if (carSampleData[i]) {
+            carSampleData.map(async (car, i) => {
+                // @ts-ignore
+                const coors = await getCoordinates({countryCode: validateCountryCode(car.country), postalCode: car.postalCode})
+
+                // @ts-ignore
+                return db.Car.create({
+
                     // @ts-ignore
-                    return db.Car.create({
-                        hostId: host.hostId,
-                        ...carSampleData[i],
-                    });
-                }
-                return undefined;
-            }),
+                    hostId: hosts[i % hosts.length].hostId,
+                    ...car,
+                    location: {type: "Point", coordinates: coors}
+                });
+            })
         )
         console.log("Car Data Created.");
         const cars = await db.Car.findAll({

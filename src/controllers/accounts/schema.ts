@@ -18,7 +18,7 @@ const profileBodySchema = Joi.object<ProfileUpdateBody>({
     lastName:  Joi.string().max(100).optional(),
     dob: dobSchema.max(100).optional(),
     DLN: Joi.string().max(100).optional(),
-    DLExpirationDate: Joi.date().iso().min('now').optional()
+    DLExpirationDate: Joi.date().iso().min('now')
         .when('DLN', {
             is: Joi.exist(),
             then: Joi.required(),

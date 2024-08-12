@@ -40,7 +40,7 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 allowNull: false,
             },
             type: {
-                type: DataTypes.ENUM("sedan", "suv", "truck", "van"),
+                type: DataTypes.ENUM("sedan", "suv", "truck", "van", "coupe"),
                 allowNull: false,
             },
             description: {
