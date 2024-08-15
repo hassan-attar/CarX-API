@@ -4,7 +4,7 @@ import hostSampleData from "./host.sample.json";
 import reviewSampleData from "./review.sample.json"
 import {DB} from "../../db";
 import {getCoordinates} from "../../../../utils/map";
-import {validateCountryCode} from "../../../../validators/country";
+import {validateCountryCode} from "../../../../schemas/country";
 import {v4} from "uuid"
 
 const availabilityData = [

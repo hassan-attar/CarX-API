@@ -18,17 +18,17 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
                 onDelete: "NO ACTION",
                 onUpdate: "CASCADE",
             },
-            transactionId: {
+            checkoutSessionId: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            customerId: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            amount: {
+            total: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
+            },
+            subtotal: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
             },
             currency: {
                 type: DataTypes.STRING(3),

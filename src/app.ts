@@ -11,6 +11,7 @@ import swaggerDocs from "./swaggerDocs";
 import CarsRoutes from "./routes/cars";
 import authRoutes from "./routes/auth";
 import accountsRouter from "./routes/accounts";
+import paymentRouter from "./routes/payments"
 import errorHandlingMiddleware from "./middlewares/errorHandlingMiddleware";
 const app = express();
 
@@ -27,15 +28,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 // Logging
 app.use(morgan("dev"));
-
-app.get("/me", (req, res) => {
-    if (req.isAuthenticated()) {
-        return res.status(200).send(req.user);
-    } else {
-        return res.status(401).send("Not authorized");
-    }
-});
-
 // Routes
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
@@ -62,6 +54,8 @@ app.use("/auth", authRoutes);
  *   description: User Accounts Routes
  */
 app.use("/accounts", accountsRouter);
+
+app.use("/payments", paymentRouter)
 
 
 app.use(errorHandlingMiddleware)

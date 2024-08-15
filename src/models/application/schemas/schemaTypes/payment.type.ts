@@ -7,14 +7,15 @@ interface OptionalPaymentAttributes {
     receiptUrl?: string;
     chargeId?: string;
     refundId?: string;
+    subtotal?: number;
     errorMessage?: string;
     status?: "succeeded" | "pending" | "failed";
 }
 
 interface PaymentAttributes extends OptionalPaymentAttributes {
     userId: string;
-    transactionId: string;
-    amount: number;
+    checkoutSessionId: string;
+    total: number;
     currency: string;
 }
 
@@ -30,9 +31,10 @@ export class Payment
 {
     public userId!: string;
     public paymentId?: string;
-    public transactionId!: string;
+    public checkoutSessionId!: string;
     public customerId?: string;
-    public amount!: number;
+    public total!: number;
+    public subtotal?: number;
     public currency!: string;
     public paymentMethodId?: string;
     public status?: "succeeded" | "pending" | "failed";
