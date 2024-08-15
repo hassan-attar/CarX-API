@@ -105,8 +105,23 @@ export const createCheckoutSession: RequestHandler = async (req, res, next) => {
 
 export const getSessionStatus: RequestHandler = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(req.query.session_id as string);
+    const payment = await db.Payment.findOne({
+        where: {
+            checkoutSessionId: req.query.session_id as string,
+            // @ts-ignore
+            userId: req.user.userId
+        }
+    })
+    const trip = await db.Trip.findOne({
+        // @ts-ignore
+        paymentId: payment.paymentId,
+        // @ts-ignore
+        userId: req.user.userId
+    })
+
     res.send({
         status: session.status,
+        tripId: trip.tripId
     });
 }
 

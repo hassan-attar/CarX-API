@@ -59,7 +59,10 @@ const getCars: RequestHandler = async(req, res, next) => {
                     lat: filters.lat,
                     radius: filters.radius ? filters.radius * 1000 : (50 * 1000)
                 }
-            } : [])
+            } : []),
+            attributes: {
+                exclude: ["plateNumber", "address"],
+            }
         });
         return res.status(200).json(cars);
     } catch (err) {
@@ -71,7 +74,9 @@ const getCars: RequestHandler = async(req, res, next) => {
 const getCarById: RequestHandler = async (req, res, next) => {
     try {
         const car = await db.Car.findOne({
-            attributes: { exclude: ["hostId"] },
+            attributes: {
+                exclude: ["plateNumber", "address", "hostId"],
+            },
             where: { carId: req.params.carId },
             include: [
                 {
@@ -107,6 +112,7 @@ const getCarById: RequestHandler = async (req, res, next) => {
                         }
                     ],
                 }],
+
         });
         if (!car) {
             return next(new ItemNotFoundError())

@@ -8,11 +8,19 @@ export const getTrips : RequestHandler = async (req, res) => {
             //@ts-ignore
             userId: req.user.userId
         },
+        attributes: {
+            exclude: ["hostId"],
+        },
         include: [
             {
                 model: db.Payment,
                 as: "Payment",
-                attributes: ["status"]
+                attributes: ["status", "paymentId"]
+            },
+            {
+                model: db.Car,
+                as: "Car",
+                attributes: ["headerImage", "make", "model", "year", "country", "region", "city"]
             }
         ]
     })
@@ -21,16 +29,18 @@ export const getTrips : RequestHandler = async (req, res) => {
 
 export const getTripById : RequestHandler = async (req, res) => {
     const tripId = req.params.tripId;
-    const trips = await db.Trip.findOne({
+    const trip = await db.Trip.findOne({
         where: {
             tripId: tripId,
             //@ts-ignore
             userId: req.user.userId
         },
+        attributes: {
+            exclude: ["hostId"],
+        },
         include: [
             {
                 model: db.Host,
-
                 as: "Host",
                 attributes: ["firstName", "lastName", "profileImage"],
             },
@@ -47,7 +57,13 @@ export const getTripById : RequestHandler = async (req, res) => {
                 attributes: ["total", "subtotal", "currency", "status"]
             }
         ],
-
     })
-    return res.json(trips);
+    // @ts-ignore
+    if(trip.Payment.status !== "succeeded"){
+        // @ts-ignore
+        trip.Car.plateNumber = undefined;
+        // @ts-ignore
+        trip.Car.address = undefined;
+    }
+    return res.json(trip);
 }
