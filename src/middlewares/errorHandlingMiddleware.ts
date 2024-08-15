@@ -1,6 +1,5 @@
 import {ErrorRequestHandler} from "express";
 import {BaseError} from "../errors/BaseError/BaseError";
-import ClientError from "../errors/ClientError/ClientError";
 import {StatusCodes} from "http-status-codes";
 import {MulterError} from "multer";
 import ValidationError from "../errors/ClientError/ValidationError";
@@ -62,9 +61,6 @@ const errorHandlingMiddleware:ErrorRequestHandler = (err , __ , res , _ ) => {
             message: 'An unexpected error occurred',
             details: [],
         });
-    }
-    if (err instanceof ClientError) {
-        return res.json(err);
     }
     return res.status(err.statusCode).json(err);
 }
