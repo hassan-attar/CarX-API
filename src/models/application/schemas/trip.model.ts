@@ -41,7 +41,6 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             },
             paymentId: {
                 type: DataTypes.UUID,
-                allowNull: true,
                 references: {
                     model: Payment,
                     key: "paymentId",
@@ -131,11 +130,11 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             onDelete: "CASCADE",
             constraints: true,
         });
-        Trip.hasOne(models.Payment, {
-            foreignKey: "tripId",
+        Trip.belongsTo(models.Payment, {
+            foreignKey: "paymentId",
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
-            constraints: true,
+            constraints: true
         });
     };
 

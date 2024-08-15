@@ -29,7 +29,7 @@ export class Trip
     extends Sequelize.Model<TripAttributes, TripCreationAttributes>
     implements TripAttributes
 {
-    public tripId?: string;
+    public tripId!: string;
     public carId!: string;
     public userId!: string;
     public hostId!: string;

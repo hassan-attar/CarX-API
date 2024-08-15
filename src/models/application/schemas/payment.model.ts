@@ -78,12 +78,12 @@ export default (sequelize: Sequelize, DataTypes: typeof SequelizeDataTypes) => {
             onUpdate: "CASCADE",
             constraints: true,
         });
-        Payment.belongsTo(models.Trip, {
-            foreignKey: "tripId",
-            onDelete: "CASCADE",
-            onUpdate: "CASCADE",
-            constraints: true,
-        });
+        // Payment.belongsTo(models.Trip, {
+        //     foreignKey: "tripId",
+        //     onDelete: "CASCADE",
+        //     onUpdate: "CASCADE",
+        //     constraints: true,
+        // });
     };
 
     return Payment;

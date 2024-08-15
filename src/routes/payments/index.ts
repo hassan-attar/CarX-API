@@ -1,11 +1,15 @@
 import { Router } from 'express';
 const router = Router();
-import {createCheckoutSession, getSessionStatus, checkoutWebHook} from "../../controllers/payments";
+import {createCheckoutSession, getPaymentById, getPayments, getSessionStatus} from "../../controllers/payments";
+import isAuthenticatedMiddleware from "../../middlewares/isAuthenticatedMiddleware";
 
+
+
+router.use(isAuthenticatedMiddleware)
 router.post("/checkout-session", createCheckoutSession)
-
 router.get('/session-status', getSessionStatus);
+router.get('/history/:paymentId', getPaymentById);
+router.get('/history/', getPayments);
 
-router.post('/webhook', checkoutWebHook);
 
 export default router;

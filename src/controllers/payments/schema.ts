@@ -1,6 +1,4 @@
 import Joi from "joi";
-import currencySchemaCreator from "../../schemas/currency";
-import countrySchema from "../../schemas/country";
 
 interface CheckoutSessionBody {
     currency: string;
@@ -8,19 +6,31 @@ interface CheckoutSessionBody {
     carId: string;
     from: Date,
     to: Date,
+    tripId?: string;
 }
 
 
 
 const CheckoutSessionBodySchema = Joi.object<CheckoutSessionBody>({
-    countryName: countrySchema.optional(),
-    currency: currencySchemaCreator({currencyCodeFieldName: "currencyCode", countryFieldName: "countryName"}).optional().default("USD"),
-    carId: Joi.string().max(100).required(),
+    carId: Joi.string().max(100).when("tripId", {
+        is: Joi.exist(),
+        then: Joi.optional(),
+        otherwise: Joi.required()
+    }),
     from: Joi.date()
         .iso()
         .min("now")
-        .required(),
-    to: Joi.date().iso().min(Joi.ref("from")).required(),
+        .when("tripId", {
+            is: Joi.exist(),
+            then: Joi.optional(),
+            otherwise: Joi.required()
+        }),
+    to: Joi.date().iso().min(Joi.ref("from")).when("tripId", {
+        is: Joi.exist(),
+        then: Joi.optional(),
+        otherwise: Joi.required()
+    }),
+    tripId: Joi.string().max(100).optional(),
 })
 
 

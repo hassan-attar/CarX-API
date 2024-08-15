@@ -21,4 +21,7 @@ export class CarAvailability
 
     static associate: (models: any) => void;
     static mountHooks: (models: any) => void;
+    static makeUnavailable: (carId: string, from: Date, to: Date) => Promise<boolean>;
+    static makeAvailable: (carId: string, from: Date, to: Date) => Promise<boolean>;
+    static isAvailable: (carId: string, from: Date, to: Date) => Promise<boolean>;
 }
