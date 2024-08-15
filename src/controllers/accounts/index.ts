@@ -1,6 +1,7 @@
 import {RequestHandler} from "express";
 import {StatusCodes} from "http-status-codes";
-import db from "../../models/application/db";
+import appDb from "../../models/application/db";
+import authDb from "../../models/auth/db";
 import AssumptionViolationError from "../../errors/ServerError/AssumptionViolationError";
 import {saveProfileImage} from "../../utils/imageProcessing";
 import profileBodySchema from "../accounts/schema";
@@ -9,7 +10,7 @@ import ValidationError from "../../errors/ClientError/ValidationError";
 const URL = "http://localhost:8080/static"
 export const getProfile: RequestHandler = async (req,res, next) => {
     // @ts-ignore
-    const appUser = await db.User.findByPk(req.user!.userId);
+    const appUser = await appDb.User.findByPk(req.user!.userId);
     if(!appUser){
         return next(new AssumptionViolationError({
             assumption: "User was able to login and get authenticated, but it's data is not in the app database.",
@@ -48,27 +49,56 @@ export const patchProfile: RequestHandler = async (req,res, next) => {
         const filename = req.file && await saveProfileImage({filename: req.file.filename, filePath: req.file.path})
 
         // @ts-ignore
-        const user = await db.User.findByPk(req.user!.userId)
-        if(!user){
+        let dbUser = await appDb.User.findByPk(req.user!.userId)
+        let authUser = null;
+        if(!dbUser){
             return next(new AssumptionViolationError({
                 assumption: "User was able to login and get authenticated, but it's data is not in the app database.",
                 whereInitiated: req.originalUrl,
                 errorObj: null,
             }))
         }
-
-        body.firstName && (user.firstName = body.firstName);
-        body.lastName && (user.lastName = body.lastName);
-        body.dob && (user.dob = new Date(body.dob));
-        body.DLN && (user.DLN = body.DLN);
-        body.DLCountry && (user.DLCountry = body.DLCountry);
-        body.DLRegion && (user.DLRegion = body.DLRegion);
-        body.DLExpirationDate && (user.DLExpirationDate = new Date(body.DLExpirationDate));
-        req.file && (user.profileImage = filename && (URL+`/${filename}`));
-        await user.save()
-        res.status(200).json({
-            message: "Your profile has been modified successfully; allow up to 5 minutes for your image to get updated."
-        })
+        body.firstName && (dbUser.firstName = body.firstName);
+        body.lastName && (dbUser.lastName = body.lastName);
+        body.dob && (dbUser.dob = new Date(body.dob));
+        body.DLN && (dbUser.DLN = body.DLN);
+        body.DLCountry && (dbUser.DLCountry = body.DLCountry);
+        body.DLRegion && (dbUser.DLRegion = body.DLRegion);
+        body.DLExpirationDate && (dbUser.DLExpirationDate = new Date(body.DLExpirationDate));
+        req.file && (dbUser.profileImage = filename && (URL+`/${filename}`));
+        if(body.phone){ // better not to have it here, but to support frontend operations, it is implemented here for now.
+            // @ts-ignore
+            authUser = await authDb.User.findByPk(req.user.userId);
+            if(!authUser){
+                return next(new AssumptionViolationError({
+                    assumption: "User was able to login and get authenticated, but it's data is not in the auth database.",
+                    whereInitiated: req.originalUrl,
+                    errorObj: null,
+                }))
+            }
+            authUser.phone = body.phone;
+            authUser.hasPhoneVerified = false;
+            authUser = await authUser.save({returning: ["phone", "hasPhoneVerified"]});
+        }
+        dbUser = await dbUser.save({returning: ["firstName", "lastName", "profileImage", "DLN", "dob", "DLExpirationDate", "DLCountry", "DLRegion", "DLExpirationDate"]});
+        return res.status(StatusCodes.OK).json({
+            "firstName": dbUser.firstName,
+            "lastName": dbUser.lastName,
+            // @ts-ignore
+            "email": req.user.email,
+            // @ts-ignore
+            "phone": (authUser && authUser.phone) || req.user.phone,
+            "dob": dbUser.dob,
+            "profileImage": dbUser.profileImage,
+            // @ts-ignore
+            "hasEmailVerified": req.user.hasEmailVerified,
+            // @ts-ignore
+            "hasPhoneVerified": (authUser && authUser.hasPhoneVerified) || req.user.hasPhoneVerified,
+            "DLN": dbUser.DLN,
+            "DLExpirationDate": dbUser.DLExpirationDate,
+            "DLCountry": dbUser.DLCountry,
+            "DLRegion": dbUser.DLRegion
+        });
     }catch (err){
         console.log("error Data removed")
         console.log(err)
