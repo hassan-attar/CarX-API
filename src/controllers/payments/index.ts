@@ -69,7 +69,7 @@ export const createCheckoutSession: RequestHandler = async (req, res, next) => {
             automatic_tax: {enabled: true},
             expires_at: Math.floor(Date.now() / 1000) + (60 * 31), // 31 minutes
             mode: "payment",
-            return_url: `https://carxapp.org/return?session_id={CHECKOUT_SESSION_ID}`,
+            return_url: `${paymentConfig.HOST}/return?session_id={CHECKOUT_SESSION_ID}`,
         })
         const payment = await db.Payment.create({
             checkoutSessionId: checkoutSession.id,

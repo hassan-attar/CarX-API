@@ -2,12 +2,12 @@ import {RequestHandler} from "express";
 import {StatusCodes} from "http-status-codes";
 import appDb from "../../models/application/db";
 import authDb from "../../models/auth/db";
+import baseConfig from "../../config/base";
 import AssumptionViolationError from "../../errors/ServerError/AssumptionViolationError";
 import {saveProfileImage} from "../../utils/imageProcessing";
 import profileBodySchema from "../accounts/schema";
 import ValidationError from "../../errors/ClientError/ValidationError";
 
-const URL = "http://localhost:8080/static"
 export const getProfile: RequestHandler = async (req,res, next) => {
     // @ts-ignore
     const appUser = await appDb.User.findByPk(req.user!.userId);
@@ -65,7 +65,7 @@ export const patchProfile: RequestHandler = async (req,res, next) => {
         body.DLCountry && (dbUser.DLCountry = body.DLCountry);
         body.DLRegion && (dbUser.DLRegion = body.DLRegion);
         body.DLExpirationDate && (dbUser.DLExpirationDate = new Date(body.DLExpirationDate));
-        req.file && (dbUser.profileImage = filename && (URL+`/${filename}`));
+        req.file && (dbUser.profileImage = filename && (`${baseConfig.HOST}/static/${filename}`));
         if(body.phone){ // better not to have it here, but to support frontend operations, it is implemented here for now.
             // @ts-ignore
             authUser = await authDb.User.findByPk(req.user.userId);

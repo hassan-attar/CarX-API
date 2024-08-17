@@ -16,12 +16,12 @@ COPY . .
 
 RUN npm run build
 
-RUN mkdir -p ./tmp && \
-    chown -R node:node ./tmp
+RUN mkdir -p ./build/tmp && \
+    chown -R node:node ./build/tmp
 
-RUN mkdir -p ./static && \
-        chown -R node:node static && \
-        chmod -R 770 static
+RUN mkdir -p ./build/static && \
+        chown -R node:node ./build/static && \
+        chmod -R 770 ./build/static
 
 CMD ["npm", "run", "start"]
 

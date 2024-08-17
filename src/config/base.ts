@@ -7,6 +7,7 @@ const schema = Joi.object({
     NODE_ENV: Joi.string()
         .valid("development", "production", "test")
         .optional().default("development"),
+    HOST: Joi.string().optional().default("http://localhost:8080"),
 })
     .unknown()
     .required();
@@ -28,12 +29,14 @@ Assert(
 export interface BaseConfig {
     NODE_ENV: string;
     PORT: number;
+    HOST: string;
 }
 
 // Create the configuration object
 const config: BaseConfig = {
     NODE_ENV: envVars.NODE_ENV,
     PORT: process.env.port ? +process.env.port : 8000,
+    HOST: envVars.HOST
 };
 
 // Freeze the configuration object to make it immutable
