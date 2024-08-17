@@ -69,7 +69,7 @@ export const createCheckoutSession: RequestHandler = async (req, res, next) => {
             automatic_tax: {enabled: true},
             expires_at: Math.floor(Date.now() / 1000) + (60 * 31), // 31 minutes
             mode: "payment",
-            return_url: `http://localhost:8080/return?session_id={CHECKOUT_SESSION_ID}`,
+            return_url: `https://carxapp.org/return?session_id={CHECKOUT_SESSION_ID}`,
         })
         const payment = await db.Payment.create({
             checkoutSessionId: checkoutSession.id,
@@ -125,9 +125,6 @@ export const getSessionStatus: RequestHandler = async (req, res) => {
     });
 }
 
-
-const endpointSecret = "whsec_f860fa2529083cb9465666369198d7268038405adbd54b201cf535da723f9de0";
-
 export const checkoutWebHook: RequestHandler = async (request, response) => {
     const payload = request.body;
     const sig = request.headers['stripe-signature'];
@@ -136,7 +133,7 @@ export const checkoutWebHook: RequestHandler = async (request, response) => {
 
     try {
         // @ts-ignore
-        event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(payload, sig, paymentConfig.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
         console.warn("ERROR: ", err);
         // @ts-ignore
@@ -181,9 +178,9 @@ async function revokeTrip(sessionId: string): Promise<Boolean> {
         }
     })
     if(!trip) return false;
-    await prevPayments.destroy()
     await db.CarAvailability.makeAvailable(trip.carId, trip.from, trip.to);
     await trip.destroy();
+    await prevPayments.destroy();
     return true;
 }
 

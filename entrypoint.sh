@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$NODE_ENV" = "test" ]; then
   npm run test

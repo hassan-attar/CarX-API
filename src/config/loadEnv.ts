@@ -1,9 +1,9 @@
-// Define paths to .env files using @root alias
+// Define paths to .env.development files using @root alias
 import path from "node:path";
 import * as fs from "node:fs";
 import dotenv from "dotenv";
 
-const globalEnvPath = path.join(__dirname, ".env");
+const globalEnvPath = path.join(__dirname, ".env.development");
 const envFileMap: Record<string, string> = {
     development: path.join(__dirname, "..", "..", ".dev.env"),
     production: path.join(__dirname, "..", "..", ".prod.env"),

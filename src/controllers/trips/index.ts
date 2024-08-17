@@ -1,6 +1,11 @@
 import {RequestHandler} from "express";
 import db from "../../models/application/db";
-
+import ItemNotFoundError from "../../errors/ClientError/ItemNotFoundError";
+import AssumptionViolationError from "../../errors/ServerError/AssumptionViolationError";
+import {StatusCodes} from "http-status-codes";
+import Stripe from "stripe";
+import paymentConfig from "../../config/payment";
+const stripe = new Stripe(paymentConfig.STRIPE_SECRET_KEY);
 
 export const getTrips : RequestHandler = async (req, res) => {
     const trips = await db.Trip.findAll({
@@ -66,4 +71,24 @@ export const getTripById : RequestHandler = async (req, res) => {
         trip.Car.address = undefined;
     }
     return res.json(trip);
+}
+
+
+export const cancelPendingTrip : RequestHandler = async (req, res, next) => {
+    const tripId = req.params.tripId;
+    const trip = await db.Trip.findByPk(tripId)
+    if(!trip) return next(new ItemNotFoundError({message: `Trip with id ${tripId} not found.`}));
+    const prevPayments = await db.Payment.findByPk(trip.paymentId);
+    if(!prevPayments){
+        return next(new AssumptionViolationError({
+             errorObj: null,
+            whereInitiated: "CancelPendingTrips",
+            assumption: "A trip was created without having a paymentId."
+        }))
+    }
+    await stripe.checkout.sessions.expire(prevPayments.checkoutSessionId)
+    await db.CarAvailability.makeAvailable(trip.carId, trip.from, trip.to);
+    await trip.destroy();
+    await prevPayments.destroy();
+    return res.status(StatusCodes.NO_CONTENT).send();
 }

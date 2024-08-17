@@ -16,13 +16,6 @@ const sequelize = new Sequelize({
     database: authDbConfig.DB_NAME,
     username: authDbConfig.DB_USERNAME,
     password: authDbConfig.DB_PASSWORD,
-    dialectOptions: authDbConfig.NODE_ENV === "production"? {
-        ssl: {
-            ca: authDbConfig.CA_CERT,
-            rejectUnauthorized: true,
-            required: true,
-        }
-    } : undefined,
     protocol: authDbConfig.DB_PROTOCOL,
     pool: {
         min: authDbConfig.DB_MIN_POOL_SIZE,

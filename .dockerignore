@@ -9,7 +9,7 @@
 **/dist
 
 # Docker-related files in any directory
-dev.Dockerfile
+Dockerfile
 .dockerignore
 
 # Git files in any directory

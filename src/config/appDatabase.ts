@@ -1,7 +1,6 @@
 import Joi from "joi";
 import BaseConfig, { BaseConfig as BaseConfigInterface } from "./base";
 import Assert from "node:assert";
-import {baseConfig} from "./index";
 
 // Define the schema for database configuration with uppercase environment variable names
 const appDbConfigSchema = Joi.object({
@@ -14,12 +13,7 @@ const appDbConfigSchema = Joi.object({
     DB_APP_NAME: Joi.string().required(),
     DB_APP_MIN_POOL_SIZE: Joi.string().optional(),
     DB_APP_MAX_POOL_SIZE: Joi.string().optional(),
-}).append(
-    baseConfig.NODE_ENV === 'production' ? {
-        DB_APP_CA_CERT: Joi.string().required()
-    } : {})
-    .unknown()
-    .required();
+}).unknown().required();
 
 // Validate environment variables
 const { error, value: envVars } = appDbConfigSchema.validate(process.env, {
@@ -53,7 +47,6 @@ const appDbConfig: AppDbConfig = {
     DB_PORT: envVars.DB_APP_PORT,
     DB_DIALECT: envVars.DB_APP_DIALECT,
     DB_PROTOCOL: envVars.DB_APP_PROTOCOL,
-    CA_CERT: baseConfig.NODE_ENV === 'production'? envVars.DB_APP_CA_CERT.replace(/<NEWLINE>/g, "\n"): undefined, // Format certificate
     DB_NAME: envVars.DB_APP_NAME,
     DB_MIN_POOL_SIZE: envVars.DB_APP_MIN_POOL_SIZE
         ? +envVars.DB_APP_MIN_POOL_SIZE

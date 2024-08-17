@@ -6,6 +6,7 @@ import BaseConfig, { BaseConfig as InterfaceBaseConfig } from "./base";
 const paymentConfigSchema = Joi.object({
     STRIPE_PUBLISHABLE_KEY: Joi.string().required(),
     STRIPE_SECRET_KEY: Joi.string().required(),
+    STRIPE_WEBHOOK_SECRET: Joi.string().required(),
 })
     .unknown()
     .required();
@@ -24,12 +25,14 @@ Assert(
 interface PaymentConfig extends InterfaceBaseConfig {
     STRIPE_PUBLISHABLE_KEY: string;
     STRIPE_SECRET_KEY: string;
+    STRIPE_WEBHOOK_SECRET:string;
 }
 
 // Create the configuration object
 const paymentConfig: PaymentConfig = {
     STRIPE_PUBLISHABLE_KEY: envVars.STRIPE_PUBLISHABLE_KEY,
     STRIPE_SECRET_KEY: envVars.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: envVars.STRIPE_WEBHOOK_SECRET,
     ...BaseConfig,
 };
 

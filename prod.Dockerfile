@@ -14,12 +14,15 @@ RUN npm ci
 # Copy the rest of the application code
 COPY . .
 
-RUN chown -R node:node ./tmp
+RUN npm run build
+
+RUN mkdir -p ./tmp && \
+    chown -R node:node ./tmp
 
 RUN mkdir -p ./static && \
         chown -R node:node static && \
         chmod -R 770 static
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
 
 EXPOSE 8000
