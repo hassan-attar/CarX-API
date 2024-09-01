@@ -1,8 +1,8 @@
 import {ErrorRequestHandler} from "express";
-import {BaseError} from "../errors/BaseError/BaseError";
 import {StatusCodes} from "http-status-codes";
 import {MulterError} from "multer";
 import ValidationError from "../errors/ClientError/ValidationError";
+import ClientError from "../errors/ClientError/ClientError";
 
 const bodyParserCommonErrorsTypes = [
     "encoding.unsupported",
@@ -55,7 +55,7 @@ const errorHandlingMiddleware:ErrorRequestHandler = (err , __ , res , _ ) => {
         })
     }
 
-    if (!(err instanceof BaseError)) {
+    if (!(err instanceof ClientError)) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             error: 'InternalServerError',
             message: 'An unexpected error occurred',

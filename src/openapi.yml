@@ -1,0 +1,1440 @@
+openapi: 3.0.3
+info:
+  title: CarX - Car Rental API
+  version: 0.0.1
+  description: |
+    **CarX** is a car-sharing API designed to function like Turo, offering a seamless platform for users to find, book, and manage car rentals. With CarX, users can browse a wide range of available vehicles, select their desired car, and book it for their next trip. Once booked, each reservation is tracked as a trip within the system, allowing users to manage their rentals efficiently.
+
+    The API integrates with Stripe for secure and reliable payment processing, ensuring a smooth checkout experience for all transactions. Whether you're looking for a short-term rental or planning a road trip, CarX provides a user-friendly and flexible solution for car sharing
+    
+    CarX makes car rentals easy, reliable, and accessible, providing a modern alternative to traditional car rental services.
+  contact:
+    name: Hassan Attar
+    email: h.a.develops@gmail.com
+    url: https://hassan-attar.com
+  license:
+    name: CarX License
+    url: https://opensource.org/license/mit
+paths:
+  /cars:
+    get:
+      summary: Retrieve a list of cars
+      operationId: getCars
+      tags:
+        - Cars
+      parameters:
+        - name: availableFrom
+          in: query
+          required: false
+          description: |
+            The starting date in ISO 8601 date format. 
+            - Must be a valid ISO 8601 date string.
+            - Defaults to the current date and time (`now`) if left blank.
+            - Cannot be earlier than the current date and time.
+          schema:
+            type: string
+            format: date-time
+            description: The starting date in ISO 8601 date format. (defaults to now)
+          examples:
+            LeaveBlank:
+              value: ""
+              summary: Leave it blank (defaults to now on the server) or write custom value
+            SpecificDate:
+              value: '2024-10-10T00:00:00.000Z'
+              summary: a valid ISO 8601 date (modify it as you wish)
+        - name: availableTo
+          in: query
+          required: false
+          description: |
+            The ending date in ISO 8601 date format.
+            - Must be a valid ISO 8601 date string.
+            - Defaults to three days after `availableFrom` if `availableFrom` is provided or 3 days after now.
+            - Must be greater than the `availableFrom` date.
+          schema:
+            type: string
+            format: date-time
+            description: The ending date in ISO 8601 date format. (defaults to now + 3 days)
+          examples:
+            LeaveBlank:
+              value: ""
+              summary: Leave it blank (defaults to 3 days after now on the server) or write custom value
+            SpecificDate:
+              value: '2024-10-13T00:00:00.000Z'
+              summary: a valid ISO 8601 date (modify it as you wish)
+        - name: country
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+            description: |
+              The country code or name. Must be a valid ISO 3166-1 alpha-2, alpha-3, or numeric code.
+              The server will validate the provided value.
+              If you provide a valid country name, (e.g. United States for USA), server will try to cast it to ISO 3166-1.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            validAlpha2:
+              summary: ISO 3166-1 Alpha-2 Code
+              value: "US"
+            validAlpha3:
+              summary: ISO 3166-1 Alpha-3 Code (Canada)
+              value: "CAN"
+            validNumericCode:
+              summary: ISO 3166-1 numeric Code (USA)
+              value: 840
+            validName:
+              summary: A valid name for USA
+              value: "United States"
+            anotherValidName:
+              summary: Another valid name for USA
+              value: "United States of America"
+            invalid:
+              summary: Invalid Country
+              value: "XYZ"
+        - name: region
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+            description: |
+              The region or subdivision code. Must be a valid ISO 3166-2 code for subdivisions. 
+              Requires a valid country parameter to be specified. 
+              The server will validate that the region belongs to the specified country.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            validUS:
+              summary: Valid Region Code for USA as country (2 letter code)
+              value: "WA"
+            validUSCA:
+              summary: Valid Region Code for USA as country (full name)
+              value: "Washington"
+            validCA:
+              summary: Valid Region Code for Canada as country (2 letter code)
+              value: "bc"
+            validCAA:
+              summary: Valid Region Code for Canada (full name)
+              value: "British Columbia"
+            invalid:
+              summary: Invalid Region Code for Canada as country
+              value: "CA"
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+            description: The city name.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            inUS:
+              summary: City in US
+              value: los angeles
+            inCA:
+              summary: City in Canada
+              value: vancouver
+        - name: lat
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: -90
+            maximum: 90
+          description: >
+            Latitude value. Must be between -90 and 90. 
+            If specified, `lng` must also be provided.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            VancouverLat:
+              value: 49.232504
+              summary: Lat for Vancouver, Canada
+            SeattleLat:
+              value: 47.6114
+              summary: Lat for Seattle, US
+        - name: lng
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: -180
+            maximum: 180
+          description: >
+            Longitude value. Must be between -180 and 180. 
+            If specified, `lat` must also be provided.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            VancouverLng:
+              value: -123.138901
+              summary: Lng for Vancouver, Canada
+            SeattleLng:
+              value: -122.3305
+              summary: Lng for Seattle, US
+        - name: radius
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: 1
+          description: >
+            Search radius in kilometers. Must be at least 1. 
+            This field is only allowed when both `lat` and `lng` are present.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            within50KM:
+              summary: Within 50 KM proximity
+              value: 50
+            within500KM:
+              summary: Within 500 KM proximity
+              value: 500
+        - name: priceMin
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            description: The minimum price filter. Must be a positive number.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            Default:
+              value: 60.99
+              summary: Example Price
+
+        - name: priceMax
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            description: The maximum price filter. Must be a positive number.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            Default:
+              value: 100.00
+              summary: Example Price
+
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: >
+            The maximum number of items per page. Must be a positive integer 
+            up to 100. Defaults to 10 if not specified.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank (defaults to 10) or write custom value
+              value: ""
+            limit2:
+              summary: Limit of 2
+              value: 2
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+          description: >
+            The page number to retrieve. Must be a positive integer. 
+            Defaults to 1 if not specified.
+          examples:
+            LeaveBlank:
+              summary: Leave it blank or write custom value
+              value: ""
+            page2:
+              value: 2
+              summary: Go Page 2
+      description: |
+        This endpoint allows you to retrieve a list of available cars based on various filters such as availability dates, location, and price range.
+        - Use `availableFrom` and `availableTo` to filter cars by their availability period.
+        - Location-based filtering can be done using `country`, `region`, `city`, or precise `lat` and `lng` coordinates along with a `radius`.
+        - Price range can be adjusted using `priceMin` and `priceMax`.
+        - Use pagination with `limit` and `page` to control the number of results returned.
+        
+        **By default, you get all cars that are available from now until next 3 days.**
+      responses:
+        '200':
+          description: List of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+          links:
+            GetCarDetails:
+              operationId: getCarDetails
+              parameters:
+                carId: $response.body[*].carId
+        '422':
+          description: Validation Error
+          $ref: "#/components/responses/ValidationError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /cars/{carId}:
+    get:
+      tags: [ Cars ]
+      summary: Retrieve detailed information about a specific car
+      description: |
+        Fetches detailed information about a car identified by the unique `carId`.
+        This includes the car's basic details, its host information, and any reviews
+        left by users. Use this endpoint to get comprehensive details about a car.
+      operationId: getCarDetails
+      parameters:
+        - name: carId
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/UUID"
+            description: Unique identifier for the car. Must be a valid UUID.
+      responses:
+        '200':
+          description: a Car
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Car"
+                  - type: object
+                    properties:
+                      Host:
+                        $ref: "#/components/schemas/Host"
+                      Reviews:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: "#/components/schemas/BaseReview"
+                            - type: object
+                              properties:
+                                User:
+                                  $ref: "#/components/schemas/BaseUser"
+        '404':
+          description: Item Not Found
+          $ref: "#/components/responses/ItemNotFoundError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /accounts/profile:
+    patch:
+      summary: Update User Profile
+      description: |
+        Allows the logged-in user to update their profile information, including basic details and profile image.
+        The profile image must be in JPEG or PNG format and less than 5 MB in size.
+      security:
+        - CookieAuth: []
+      operationId: updateUserProfile
+      tags:
+        - Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileUpdateRequest"
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/ProfileUpdateRequest"
+                - type: object
+                  properties:
+                    profileImage:
+                      type: string
+                      format: binary
+                      description: Your profile image (must be image/jpeg or image/png and less than 5 MB)
+      responses:
+        '200':
+          description: Updated user Profile
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/User"
+                  - $ref: "#/components/schemas/BaseAuthUser"
+        '422':
+          description: Validation Error
+          $ref: "#/components/responses/ValidationError"
+        '401':
+          description: UnAuthorized Access
+          $ref: "#/components/responses/UnAauthorizedError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+    get:
+      security:
+        - CookieAuth: [ ]
+      summary: Get User Profile
+      description: |
+        Retrieves the profile information of the currently logged-in user.
+        This includes user details such as name, email, and other relevant profile data.
+      operationId: getUserProfile
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: User Profile
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/User"
+                  - $ref: "#/components/schemas/BaseAuthUser"
+        '401':
+          description: UnAuthorized Access
+          $ref: "#/components/responses/UnAauthorizedError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /accounts/profile/image:
+    delete:
+      security:
+        - CookieAuth: [ ]
+      operationId: deleteProfileImage
+      tags:
+        - Accounts
+      description: delete profile image
+      responses:
+        '204':
+          description: Image was deleted
+        '401':
+          description: UnAuthorized Access
+          $ref: "#/components/responses/UnAauthorizedError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /auth/signup:
+    post:
+      description: |
+        Registers a new user and automatically logs them in. A session cookie named `_sid`
+        is returned and will be automatically attached to subsequent requests.
+        
+        **You can also sign up and log in through our frontend application** at [https://carx.hassan-attar.com](https://carx.hassan-attar.com)
+        and then continue browsing the API, as the session cookie will be set on the domain.
+      summary: Signs up the user and logs them in, returning a session cookie
+      tags:
+        - Auth
+      security: []
+      requestBody:
+        required: true
+        description: A JSON object containing the user information.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignupRequest"
+
+      responses:
+        '201':
+          description: |
+            User successfully created and logged in.
+            The session ID is returned in a cookie named `_sid`. It will automatically attach to the subsequent requests.
+          headers:
+            Set-Cookie:
+              $ref: "#/components/headers/AuthCookieHeader"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Logs in the user and returns a session cookie
+      description: |
+        Authenticates the user using their email and password. If successful, a session
+        cookie named `_sid` is returned and will be automatically attached to subsequent requests.
+        
+        **You can also log in through our frontend application** at [https://carx.hassan-attar.com](https://carx.hassan-attar.com)
+        and then continue browsing the API, as the session cookie will be set on the domain.
+      requestBody:
+        required: true
+        description: A JSON object containing the email and password.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      security: [ ]    # no authentication
+      responses:
+        '200':
+          description: |
+            Successfully authenticated.
+            The session ID is returned in a cookie named `_sid`. It will automatically attach to the subsequent requests.
+          headers:
+            Set-Cookie:
+              $ref: "#/components/headers/AuthCookieHeader"
+        '400':
+          description: |
+            Error in credentials
+          $ref: "#/components/responses/ClientError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /auth/logout:
+    get:
+      tags:
+        - Auth
+      summary: Logs user out
+      security: [ ]    # no authentication
+      responses:
+        '200':
+          description: |
+            Successfully Logged out and the session was destroyed.
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /payments/checkout-session:
+    post:
+      summary: Create Checkout Session
+      description: |
+        Creates a checkout session to initiate the payment process for a car reservation. 
+        Upon creating the checkout session, the selected car is temporarily reserved for the user for up to `30 minutes`. 
+        If the user does not complete the payment within this time frame, the reservation will be canceled, and the car will become available for others to book.
+      security:
+        - CookieAuth: [ ]
+      operationId: createCheckoutSession
+      tags:
+        - Payments
+      requestBody:
+        $ref: "#/components/schemas/CheckoutSessionBody"
+      responses:
+        '201':
+          description: checkout session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSessionResponse"
+        '401':
+          description: UnAuthorized access
+          $ref: "#/components/responses/UnAauthorizedError"
+        '400':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseError"
+              example:
+                error: ValidationError
+                message: Car is not available within 2024-08-31T00:00:00Z to 2024-09-04T00:00:00Z.
+                details: [ ]
+        '404':
+          description: Car not found
+          $ref: "#/components/responses/ItemNotFoundError"
+        '500':
+          description: Internal Server Error
+          $ref: "#/components/responses/InternalServerError"
+    get:
+      summary: Continue Checkout Session
+      description: |
+        Retrieves an existing checkout session to allow the user to continue the payment process. 
+        This session includes details necessary to finalize the checkout, ensuring that the car remains reserved for the duration of the session.
+      security:
+        - CookieAuth: [ ]
+      operationId: continueCheckoutSession
+      tags:
+        - Payments
+      parameters:
+        - name: tourId
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        200:
+          description: Checkout session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSessionResponse"
+        401:
+          description: UnAuthorized
+          $ref: "#/components/responses/UnAauthorizedError"
+        404:
+          description: Tour not found
+          $ref: "#/components/responses/ItemNotFoundError"
+        500:
+          description: Internal Server Error
+          $ref: "#/components/responses/InternalServerError"
+  /payments/session-status:
+    get:
+      summary: Get Stripe Checkout Session Status
+      description: |
+        Retrieves the status of a specific checkout session from Stripe using its Session ID. 
+        This endpoint allows users to track whether their session on Stripe is still open, complete, or expired.
+      security:
+        - CookieAuth: [ ]
+      tags:
+        - Payments
+      operationId: getCheckoutSessionStatus
+      parameters:
+        - name: session_id
+          in: query
+          description: Checkout Session ID
+          schema:
+            type: string
+            maxLength: 128
+          required: true
+      responses:
+        '200':
+          description: checkout session status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - open
+                      - complete
+                      - expired
+                  tripId:
+                    $ref: "#/components/schemas/UUID"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseError"
+              example:
+                error: ValidationError
+                message: Invalid query data; Please fix your mistakes and try again.
+                details: [
+                  {
+                    "message": "\"sessionId\" is required",
+                    "path": [
+                      "sessionId"
+                    ],
+                    "type": "any.required",
+                    "context": {
+                      "label": "sessionId",
+                      "key": "sessionId"
+                    }
+                  }
+                ]
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+  /payments:
+    get:
+      summary: Get User Payments History
+      description: |
+        Retrieves the payment history for the authenticated user. 
+        This endpoint provides a list of all completed transactions, including details such as payment amounts, dates, and related trip information. 
+        Users can utilize this endpoint to review their past payments and ensure all transactions are accounted for. 
+        Access is restricted to authenticated users, and the response includes detailed information about each payment.
+      security:
+        - CookieAuth: [ ]
+      operationId: getUserPayments
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: List of payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Payment"
+        '401':
+          description: UnAuthorized
+          $ref: "#/components/responses/UnAauthorizedError"
+        '500':
+          description: Internal Server Error
+          $ref: "#/components/responses/InternalServerError"
+  /payments/{paymentId}:
+    get:
+      summary: Get Payment Details by ID
+      description: |
+        Retrieves detailed information about a specific payment identified by its unique payment ID. 
+        This endpoint allows users to view comprehensive details of a single payment transaction, including the amount, date, and status of the payment. 
+        It is useful for examining the specifics of a particular payment and for troubleshooting or record-keeping purposes. 
+        Access is restricted to authenticated users.
+      security:
+        - CookieAuth: [ ]
+      tags:
+        - Payments
+      operationId: getPaymentById
+      parameters:
+        - name: paymentId
+          required: true
+          in: path
+          description: Payment ID
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        '200':
+          description: One Payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentDetails"
+        '401':
+          description: UnAuthorized
+          $ref: "#/components/responses/UnAauthorizedError"
+        '404':
+          description: Payment not found
+          $ref: "#/components/responses/ItemNotFoundError"
+        '500':
+          description: Internal Server Error
+          $ref: "#/components/responses/InternalServerError"
+  /trips:
+    get:
+      summary: Retrieve User's Trips
+      description: |
+        Fetches a list of trips associated with the authenticated user. 
+        This endpoint provides details of all trips booked or planned by the user, including information about the payment and the car involved in each trip. 
+        It is useful for users to review their trip history and manage their bookings. 
+        Access to this endpoint requires authentication.
+      security:
+        - CookieAuth: [ ]
+      operationId: getUserTrips
+      tags:
+        - Trips
+      responses:
+        200:
+          description: a list of trips
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/Trip"
+                    - type: object
+                      properties:
+                        Payment:
+                          $ref: "#/components/schemas/BasePayment"
+                        Car:
+                          $ref: "#/components/schemas/BaseCar"
+        401:
+          description: UnAuthorized
+          $ref: "#/components/responses/UnAauthorizedError"
+        500:
+          description: Internal Server Error
+          $ref: "#/components/responses/InternalServerError"
+  /trips/{tripId}:
+    delete:
+      security:
+        - CookieAuth: [ ]
+      operationId: cancelUnpaidTrip
+      summary: Cancel an Unpaid Trip
+      description: |
+        Cancels a trip that the user has not yet paid for. If the trip has been paid for, the user should contact customer support to handle the cancellation.
+        Upon successful cancellation, the car will immediately become available for others to book.
+      tags:
+        - Trips
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        '204':
+          description: Trip was cancelled. The car will immediately becomes available for others to book.
+        '401':
+          description: UnAuthorized Access
+          $ref: "#/components/responses/UnAauthorizedError"
+        '500':
+          description: "Internal Server Error"
+          $ref: "#/components/responses/InternalServerError"
+    get:
+      summary: Retrieve Trip Details
+      description: |
+        Fetches detailed information about a specific trip.
+        `Note that postal code, address, and plate number details are only available after payment is completed.`
+      security:
+        - CookieAuth: [ ]
+      operationId:
+        getTripDetails
+      tags:
+        - Trips
+      parameters:
+        - name: tripId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/UUID"
+      responses:
+        200:
+          description: Trip details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TripDetails"
+        401:
+          description: UnAuthorized
+          $ref: "#/components/responses/UnAauthorizedError"
+        404:
+          description: Trip not found
+          $ref: "#/components/responses/ItemNotFoundError"
+        500:
+          description: Internal Server Error
+          $ref: "#/components/responses/InternalServerError"
+
+servers:
+  - url: https://carx.hassan-attar.com/api/{version}
+    description: "Production Server"
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1
+  - url: http://localhost:8080/api/{version}
+    description: "Local Development Server"
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1
+tags:
+  - name: Cars
+    description: "Endpoints related to car listings, management, and details, including availability and specifications for the car-sharing service."
+  - name: Auth
+    description: "Endpoints for user authentication and authorization, including login, registration, social login, and session management for secure access to the platform."
+  - name: Accounts
+    description: "Endpoints for managing user accounts, profile information, and preferences, including account updates and user settings."
+  - name: Trips
+    description: "Endpoints for managing trip bookings, scheduling, and trip history, including starting and ending trips, and viewing trip details."
+  - name: Payments
+    description: "Endpoints for handling payment processing, transaction management, refunds, and billing for trips and services offered on the platform."
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: _sid
+      description: |
+        ## Ways to Obtain the Authentication Cookie:
+        
+        ### 1. **Through the Frontend Application:**
+           - You can log in through our **[frontend application](https://carx.hassan-attar.com)**. Once logged in, you can return to this API docs to continue browsing
+        
+        ### 2. **Through API Endpoints:**
+           - You can also log in or sign up directly via the API endpoints:
+             - **Sign Up**: Use the `/auth/signup` endpoint to create a new account and log in.
+             - **Log In**: Use the `/auth/login` endpoint to log in with your credentials.
+        
+        `Once Logged in, The session cookie will attach to all of your requests automatically so you can browse the API freely.`
+
+  schemas:
+    Location:
+      type: object
+      description: Location of the car
+      properties:
+        crs:
+          type: object
+          properties:
+            type:
+              type: string
+            properties:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Coordinate reference system name
+        type:
+          type: string
+          description: Location type (e.g., Point)
+        coordinates:
+          type: array
+          items:
+            type: number
+          description: Longitude and latitude of the car
+          minItems: 2
+          maxItems: 2
+          example: [ -123.053418, 49.232504 ]
+    FuelType:
+      type: string
+      description: Type of fuel the car uses
+      enum: [ "gasoline", "hybrid", "electric" ]
+    CarType:
+      type: string
+      description: Type of vehicle
+      enum: [ "sedan", "suv", "truck", "van", "coupe" ]
+    TransmissionType:
+      type: string
+      enum:
+        - auto
+        - manual
+      description: Type of transmission
+    Host:
+      type: object
+      properties:
+        hostId:
+          $ref: "#/components/schemas/UUID"
+        firstName:
+          type: string
+          description: Host given name
+          example: John
+        lastName:
+          type: string
+          description: Host family name
+          example: Doe
+        profileImage:
+          $ref: "#/components/schemas/URLField"
+    BaseUser:
+      type: object
+      properties:
+        firstName:
+          $ref: "#/components/schemas/XSField"
+        lastName:
+          $ref: "#/components/schemas/XSField"
+        profileImage:
+          $ref: "#/components/schemas/URLField"
+    BaseAuthUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: email address
+          nullable: false
+        phone:
+          type: string
+          nullable: true
+        hasEmailVerified:
+          type: boolean
+        hasPhoneVerified:
+          type: boolean
+      required:
+        - email
+    User:
+      allOf:
+        - $ref: "#/components/schemas/BaseUser"
+        - type: object
+          properties:
+            DLN:
+              $ref: "#/components/schemas/XSField"
+              description: The user's Driver License Number.
+            DLExpirationDate:
+              type: string
+              format: date
+              description: The expiration date of the user's Driver License.
+            DLCountry:
+              $ref: "#/components/schemas/XSField"
+              description: The country of the user's Driver License.
+            DLRegion:
+              $ref: "#/components/schemas/XSField"
+              description: The region of the user's Driver License.
+            dob:
+              type: string
+              format: date
+              description: The user's date of birth.
+    BaseCar:
+      type: object
+      properties:
+        carId:
+          $ref: "#/components/schemas/UUID"
+        make:
+          type: string
+          description: Make of the car
+        model:
+          type: string
+          description: Model of the car
+        headerImage:
+          type: string
+          format: uri
+          description: URL of the car's header image
+        year:
+          type: integer
+          description: Year of manufacture
+        city:
+          type: string
+          description: City where the car is located
+        region:
+          type: string
+          description: Region or state of the car's location
+        country:
+          type: string
+          description: Country code of the car's location
+    Car:
+      allOf:
+        - $ref: "#/components/schemas/BaseCar"
+        - type: object
+          properties:
+            transmission:
+              $ref: '#/components/schemas/TransmissionType'
+            type:
+              $ref: '#/components/schemas/CarType'
+            description:
+              type: string
+              description: Description of the car
+            distanceIncludedKm:
+              type: integer
+              description: Kilometers included in the rental price
+            fuelType:
+              $ref: '#/components/schemas/FuelType'
+            galleryImages:
+              type: array
+              items:
+                type: string
+                format: uri
+              nullable: true
+              description: List of URLs of gallery images
+            location:
+              $ref: '#/components/schemas/Location'
+            avgRating:
+              type: number
+              nullable: true
+              description: Average rating of the car
+            tripCount:
+              type: integer
+              nullable: true
+              description: Number of trips the car has been rented for
+            createdAt:
+              type: string
+              format: date-time
+              description: Timestamp of when the car was created
+            updatedAt:
+              type: string
+              format: date-time
+              description: Timestamp of the last update
+    CarSensetiveData:
+      type: object
+      description: Data related to car that would give the exact location of the vehicle (only available after successfully booking the trip)
+      properties:
+        postalCode:
+          type: string
+          description: Postal code of the car's location
+          nullable: true
+        plateNumber:
+          $ref: "#/components/schemas/XXSField"
+          nullable: true
+        address:
+          $ref: "#/components/schemas/MField"
+          nullable: true
+    CarPricePolicy:
+      type: object
+      properties:
+        price:
+          type: string
+          description: Rental price per day
+        currency:
+          type: string
+          description: Currency of the price (three-letter ISO 4217 code)
+          minLength: 3
+          maxLength: 3
+        minRentDays:
+          type: integer
+          description: Minimum number of rental days
+        maxRentDays:
+          type: integer
+          description: Maximum number of rental days
+        extraDistanceCharge:
+          type: string
+          description: Charge per extra kilometer
+    BaseReview:
+      type: object
+      properties:
+        reviewId:
+          $ref: "#/components/schemas/UUID"
+        comment:
+          $ref: "#/components/schemas/LField"
+        hostReply:
+          $ref: "#/components/schemas/LField"
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+    BasePayment:
+      type: object
+      properties:
+        paymentId:
+          $ref: "#/components/schemas/UUID"
+        status:
+          type: string
+          enum:
+            - succeeded
+            - pending
+            - failed
+          description: The status of the payment.
+    Payment:
+      allOf:
+        - $ref: "#/components/schemas/BasePayment"
+        - type: object
+          properties:
+            total:
+              type: integer
+              description: The total amount of the payment in the smallest currency unit
+            subtotal:
+              type: integer
+              description: The subtotal amount of the payment in the smallest currency unit
+              nullable: true
+            currency:
+              type: string
+              description: The currency code (ISO 4217) for the payment (e.g., USD, EUR).
+              maxLength: 3
+              minLength: 3
+    PaymentDetails:
+      allOf:
+        - $ref: "#/components/schemas/Payment"
+        - type: object
+          properties:
+            checkoutSessionId:
+              type: string
+              description: The checkout session identifier.
+            paymentMethodId:
+              type: string
+              description: The payment method identifier used for this payment.
+              nullable: true
+            description:
+              type: string
+              description: Additional information about the payment.
+              nullable: true
+            receiptUrl:
+              $ref: "#/components/schemas/URLField"
+              description: The URL for the payment receipt.
+            chargeId:
+              type: string
+              description: The identifier for the charge related to this payment.
+              nullable: true
+            refundId:
+              type: string
+              description: The identifier for the refund related to this payment.
+              nullable: true
+            errorMessage:
+              type: string
+              description: Error message if the payment failed.
+              nullable: true
+    Trip:
+      type: object
+      properties:
+        tripId:
+          $ref: "#/components/schemas/UUID"
+        from:
+          type: string
+          format: date-time
+          description: The start date and time of the trip.
+          example: "2023-08-29T12:00:00Z"
+        to:
+          type: string
+          format: date-time
+          description: The end date and time of the trip.
+          example: "2023-09-05T12:00:00Z"
+        pickupAddress:
+          $ref: "#/components/schemas/MField"
+          description: The pickup address for the trip.
+          nullable: true
+        pickupPostalCode:
+          $ref: "#/components/schemas/XXSField"
+          description: The postal code for the pickup address.
+          nullable: true
+        pickupCity:
+          $ref: "#/components/schemas/XSField"
+          description: The city for the pickup address.
+          nullable: true
+        pickupRegion:
+          $ref: "#/components/schemas/XSField"
+          description: The region for the pickup address.
+          nullable: true
+        pickupCountry:
+          $ref: "#/components/schemas/XSField"
+          description: The country for the pickup address.
+          nullable: true
+        returnAddress:
+          $ref: "#/components/schemas/MField"
+          description: The return address for the trip.
+          nullable: true
+        returnPostalCode:
+          $ref: "#/components/schemas/XXSField"
+          description: The postal code for the return address.
+          nullable: true
+        returnCity:
+          $ref: "#/components/schemas/XSField"
+          description: The city for the return address.
+          nullable: true
+        returnRegion:
+          $ref: "#/components/schemas/XSField"
+          description: The region for the return address.
+          nullable: true
+        returnCountry:
+          $ref: "#/components/schemas/XSField"
+          description: The country for the return address.
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - tripId
+        - from
+        - to
+    TripDetails:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Trip"
+        - type: object
+          properties:
+            Host:
+              $ref: "#/components/schemas/Host"
+            Car:
+              allOf:
+                - $ref: "#/components/schemas/Car"
+                - $ref: "#/components/schemas/CarSensetiveData"
+            Payment:
+              allOf:
+                - $ref: "#/components/schemas/Payment"
+    BaseError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: The type of error that occurred.
+        message:
+          type: string
+          description: A descriptive message providing more details about the error.
+        details:
+          type: array
+          description: Additional details about the error, if available.
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A descriptive message providing more details.
+            additionalProperties: true
+          nullable: true
+      required:
+        - error
+        - message
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: The user's email address.
+          example: h.a.develops@gmail.com
+        password:
+          type: string
+          description: The user's password.
+      required:
+        - email
+        - password
+    SignupRequest:
+      allOf:
+        - $ref: "#/components/schemas/LoginRequest"
+        - type: object
+          properties:
+            firstName:
+              type: string
+              description: The user's first name.
+            lastName:
+              type: string
+              description: The user's last name.
+          required:
+            - firstName
+            - lastName
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 100
+          description: The user's first name.
+          default: ""
+        lastName:
+          type: string
+          maxLength: 100
+          description: The user's last name.
+          default: ""
+        dob:
+          type: string
+          format: date
+          description: The user's date of birth. (YYYY-MM-DD)
+          default: ""
+        phone:
+          type: string
+          pattern: '^\\+?[1-9]\\d{1,14}$'
+          description: The user's phone number in E.164 format.
+          default: ""
+        DLN:
+          type: string
+          maxLength: 100
+          description: The user's driver's license number. Required if DLExpirationDate is provided.
+          default: ""
+        DLExpirationDate:
+          type: string
+          format: date
+          description: The expiration date of the driver's license. Required if DLN is provided.
+          default: ""
+        DLCountry:
+          type: string
+          maxLength: 100
+          description: The country where the driver's license was issued.
+          default: ""
+        DLRegion:
+          type: string
+          maxLength: 100
+          description: The region where the driver's license was issued.
+          default: ""
+    CheckoutSessionBody:
+      type: object
+      properties:
+        carId:
+          type: string
+          maxLength: 100
+          description: |
+            The car ID associated with the checkout session.
+        from:
+          type: string
+          format: date-time
+          description: |
+            The start date and time of the trip in ISO 8601 format.
+            Must be in the future.
+        to:
+          type: string
+          format: date-time
+          description: |
+            The end date and time of the trip in ISO 8601 format.
+            Must be later than `from`.
+      required:
+        - carId
+        - from
+        - to
+    CheckoutSessionResponse:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          description: The payment ID associated with the trip.
+        status:
+          type: string
+          enum:
+            - pending
+            - succeeded
+          description: The current status of the payment.
+        clientSecret:
+          type: string
+          nullable: true
+          description: |
+            The client secret for the checkout session. 
+            This field may be omitted if status is `succeeded`.
+    XXSField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      minLength: 1
+      maxLength: 16
+    XSField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      minLength: 1
+      maxLength: 32
+    SField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      minLength: 1
+      maxLength: 64
+    MField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      minLength: 1
+      maxLength: 128
+    LField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      minLength: 1
+      maxLength: 256
+    XXLField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      minLength: 1
+      maxLength: 2000
+    URLField:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      pattern: '^(https?):\/\/[^\s/$.?#].[^\s]*$'
+    UUID:
+      description: A generic text field to regulate the expected length and format of the input fields throughout the API
+      type: string
+      format: uuid
+      readOnly: true
+      example: 1951a7e9-b2be-4797-9430-14882da9e883
+  responses:
+    InternalServerError:
+      description: Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseError"
+          example:
+            error: InternalServerError
+            message: An unexpected error occurred
+            details: [ ]
+    ValidationError:
+      description: Validation Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseError"
+          example:
+            error: ValidationError
+            message: Invalid query parameters; Please fix your mistakes and try again.
+            details:
+              - message: "You must provide a country. Please specify the country in order to specify the region."
+                path: [ "region" ]
+                type: "region.no-country"
+                "context":
+                  label: "region"
+                  value: "CA"
+                  key: "region"
+    ItemNotFoundError:
+      description: Item Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseError"
+          example:
+            error: ItemNotFoundError
+            message: Item not found.
+            details: [ ]
+    UnAauthorizedError:
+      description: UnAuthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseError"
+          example:
+            error: UnAuthorizedError
+            message: To continue, please login or signup
+            details: [ ]
+    ClientError:
+      description: Generic Client Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseError"
+          example:
+            error: ClientError
+            message: Email or password is incorrect.
+            details: [ ]
+  headers:
+    AuthCookieHeader:
+      description: The cookie header to be set in the response.
+      schema:
+        type: string
+        example: _sid=abcde12345; Path=/; HttpOnly; Secure; SameSite=Strict

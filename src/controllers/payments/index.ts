@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import paymentConfig from "../../config/payment"
 import db from "../../models/application/db";
 const stripe = new Stripe(paymentConfig.STRIPE_SECRET_KEY);
-import CheckoutSessionBodySchema from "./schema"
+import {CheckoutSessionBodySchema, SessionStatusSchema, GetCheckoutSessionSchema} from "./schema"
 import ValidationError from "../../errors/ClientError/ValidationError";
 import ItemNotFoundError from "../../errors/ClientError/ItemNotFoundError";
 
@@ -17,19 +17,29 @@ function calculateDaysBetween(from: Date, to: Date) {
     return Math.floor(differenceInMilliseconds / millisecondsPerDay);
 }
 
+export const getCheckout : RequestHandler = async (req, res, next) => {
+    const { error, value: data } = GetCheckoutSessionSchema.validate(req.query, {
+        abortEarly: false,
+    });
+    if (error) return next(new ValidationError({message: "Invalid body data; Please fix your mistakes and try again.", details: error.details}))
+    const tripId = data.tripId
+    const trip = await db.Trip.findByPk(tripId, {include: {model: db.Payment, as: "Payment", attributes: ["checkoutSessionId", "status"]}});
+    if(!trip) return next(new ItemNotFoundError({message: `Trip with id ${tripId} not found`}))
+    // @ts-ignore
+    if(trip.Payment.status === "succeeded"){
+        return res.status(200).json({"paymentId": trip.paymentId, "status": "succeeded"});
+    }
+    // @ts-ignore
+    const checkoutSession = await stripe.checkout.sessions.retrieve(trip.Payment.checkoutSessionId)
+    return res.json({"paymentId": trip.paymentId, "status": "pending", "clientSecret": checkoutSession.client_secret});
+}
+
 export const createCheckoutSession: RequestHandler = async (req, res, next) => {
     try{
         const { error, value: body } = CheckoutSessionBodySchema.validate(req.body, {
             abortEarly: false,
         });
         if (error) return next(new ValidationError({message: "Invalid body data; Please fix your mistakes and try again.", details: error.details}))
-        if(body.tripId){
-            const trip = await db.Trip.findByPk(body.tripId, {include: {model: db.Payment, as: "Payment", attributes: ["checkoutSessionId"]}});
-            if(!trip) return next(new ItemNotFoundError({message: `Trip with id ${body.tripId} not found`}))
-            // @ts-ignore
-            const checkoutSession = await stripe.checkout.sessions.retrieve(trip.Payment.checkoutSessionId)
-            return res.json({"clientSecret": checkoutSession.client_secret});
-        }
         const car = await db.Car.findByPk(body.carId)
         if(!car){
             return next(new ItemNotFoundError({message: `Car with id ${body.carId} not found; Please fix your mistakes and try again.`}));
@@ -69,8 +79,9 @@ export const createCheckoutSession: RequestHandler = async (req, res, next) => {
             automatic_tax: {enabled: true},
             expires_at: Math.floor(Date.now() / 1000) + (60 * 31), // 31 minutes
             mode: "payment",
-            return_url: `${paymentConfig.HOST}/return?session_id={CHECKOUT_SESSION_ID}`,
+            return_url: `https://${req.headers['x-origin']}/return?session_id={CHECKOUT_SESSION_ID}`,
         })
+
         const payment = await db.Payment.create({
             checkoutSessionId: checkoutSession.id,
             currency: car.currency,
@@ -95,7 +106,7 @@ export const createCheckoutSession: RequestHandler = async (req, res, next) => {
                 tripId: trip.tripId
             }
         })
-        res.json({"clientSecret": checkoutSession.client_secret});
+        res.json({"paymentId": payment.paymentId, "status": payment.status, "clientSecret": checkoutSession.client_secret});
     }catch (err){
         res.status(400).json({message: "Something went wrong!"});
         console.log(err)
@@ -103,11 +114,15 @@ export const createCheckoutSession: RequestHandler = async (req, res, next) => {
 }
 
 
-export const getSessionStatus: RequestHandler = async (req, res) => {
-    const session = await stripe.checkout.sessions.retrieve(req.query.session_id as string);
+export const getSessionStatus: RequestHandler = async (req, res, next) => {
+    const { error, value: query } = SessionStatusSchema.validate(req.query, {
+        abortEarly: false,
+    });
+    if (error) return next(new ValidationError({message: "Invalid query data; Please fix your mistakes and try again.", details: error.details}))
+    const session = await stripe.checkout.sessions.retrieve(query.session_id);
     const payment = await db.Payment.findOne({
         where: {
-            checkoutSessionId: req.query.session_id as string,
+            checkoutSessionId: query.session_id,
             // @ts-ignore
             userId: req.user.userId
         }
@@ -119,7 +134,7 @@ export const getSessionStatus: RequestHandler = async (req, res) => {
         userId: req.user.userId
     })
 
-    res.send({
+    res.json({
         status: session.status,
         tripId: trip.tripId
     });
@@ -196,7 +211,11 @@ export const getPayments: RequestHandler = async (req, res) => {
         where: {
             // @ts-ignore
             userId: req.user.userId
-        }
+        },
+        attributes:
+          {
+              exclude: ["userId"]
+          }
     })
     return res.json(payments);
 }

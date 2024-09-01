@@ -1,9 +1,11 @@
-import { Request, Response, NextFunction } from "express";
-import { UniqueConstraintError } from "sequelize";
+import {NextFunction, Request, Response} from "express";
+import {UniqueConstraintError} from "sequelize";
 import authDb from "../../../models/auth/db";
 import appDb from "../../../models/application/db";
 import passport from "passport";
-import { signupSchema, loginSchema } from "./schema";
+import {loginSchema, signupSchema} from "./schema";
+import ClientError from "../../../errors/ClientError/ClientError";
+import {StatusCodes} from "http-status-codes";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
     // Check for the presence of username and password
@@ -18,8 +20,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     // @ts-ignore
     passport.authenticate("local", (err, user, info) => {
         if (err) return next(err);
-        if (!user) return res.status(400).json({ error: info.message });
-
+        if(!user) return next(new ClientError({statusCode: StatusCodes.BAD_REQUEST, errorType: ClientError.name, message: info.message}));
         req.logIn(user, (err) => {
             if (err) return next(err);
             return res.status(200).json({ success: true });
@@ -47,7 +48,12 @@ export async function signup(req: Request, res: Response) {
             firstName: body.firstName,
             lastName: body.lastName,
         })
-        return res.status(201).json({ success: true });
+        req.login(user, {session: true}, (err) => {
+            if (err) {
+                return res.status(201).json({ success: true });
+            }
+            return res.status(201).json({ success: true });
+        });
     } catch (err) {
         if (err instanceof UniqueConstraintError) {
         }
@@ -60,8 +66,7 @@ export function logout(req: Request, res: Response, next: NextFunction) {
         if (err) {
             return next(err);
         }
-
         // Redirect to the main page or another URL after auth destruction
-        res.send("success"); // or any other URL you want to redirect to
+        res.send("success") ; // or any other URL you want to redirect to
     });
 }

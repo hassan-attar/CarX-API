@@ -15,7 +15,7 @@ const regionSchemaCreator = (options: Options | undefined = undefined) => {
         if (!country){
             return helpers.error(`${regionFieldName}.no-${countryFieldName}`);
         }
-        const result = iso3166.subdivision(country, region)
+        const result = iso3166.subdivision(country, region.toUpperCase())
         if(!result){
             return helpers.error(`${regionFieldName}.invalid`);
         }
@@ -28,9 +28,6 @@ const regionSchemaCreator = (options: Options | undefined = undefined) => {
                 [`${regionFieldName}.invalid`]: `The ${regionFieldName} provided is invalid for the given ${countryFieldName}. Please ensure the ${regionFieldName} follows the ISO 3166-2 standard for subdivisions.`,
                 [`${regionFieldName}.no-${countryFieldName}`]: `You must provide a ${countryFieldName}. Please specify the ${countryFieldName} in order to specify the ${regionFieldName}.`
             });
-
 }
-
-
 
 export default regionSchemaCreator;

@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import {getProfile, patchProfile} from "../../controllers/accounts";
+import {getProfile, patchProfile, removeProfileImage} from "../../controllers/accounts";
 import isAuthenticatedMiddleware from "../../middlewares/isAuthenticatedMiddleware";
 import multer from "multer";
 import InvalidFileTypeError from "../../errors/ClientError/InvalidFileTypeError";
 import path from "node:path";
-
 const allowedTypes = ['image/jpeg', 'image/png'];
-
+const router = Router();
 const storage = multer.diskStorage({
     destination: function (__, _, cb) {
         console.log("1")
@@ -17,6 +16,7 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + uniqueSuffix)
     }
 })
+
 const upload = multer({
     storage: storage,
     limits: {
@@ -35,9 +35,10 @@ const upload = multer({
     }
 })
 
-const router = Router();
 router.use(isAuthenticatedMiddleware)
+
 router.get("/profile", getProfile)
 router.patch("/profile", upload.single("profileImage"), patchProfile)
+router.delete("/profile/image", removeProfileImage)
 
 export default router;

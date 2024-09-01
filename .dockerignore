@@ -23,3 +23,16 @@ Dockerfile
 # Environment files
 **/*.env
 **/*.env.placeholder
+
+.dev.env
+.gitignore
+.github
+.git
+nginx
+db-img
+build
+prod.Dockerfile
+README.md
+LICENSE
+.test.env.placeholder
+test.ts

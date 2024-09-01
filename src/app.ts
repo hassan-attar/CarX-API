@@ -7,7 +7,10 @@ import helmet from "helmet";
 import passport from "passport";
 import sessionMiddleware from "./middlewares/sessionMiddleware";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocs from "./swaggerDocs";
+// @ts-ignore
+import yaml from "js-yaml";
+import fs from 'node:fs'
+import path from "node:path"
 import CarsRoutes from "./routes/cars";
 import authRoutes from "./routes/auth";
 import accountsRouter from "./routes/accounts";
@@ -19,7 +22,10 @@ import {checkoutWebHook} from "./controllers/payments";
 const app = express();
 
 // Security
-app.use(cors());
+app.use(cors({
+  origin: ["https://carx.hassan-attar.com", "https://carxapp.org"],
+  credentials: true
+}));
 app.use(helmet());
 // Parsing
 app.post("/stripe/webhook", bodyParser.raw({type: 'application/json'}), checkoutWebHook)
@@ -33,7 +39,11 @@ app.use(passport.session());
 // Logging
 app.use(morgan("dev"));
 // Routes
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const swaggerDocument = yaml.load(
+  fs.readFileSync(path.join(__dirname, 'openapi.yml'), 'utf8')
+);
+// @ts-ignore
+app.use("/docs", swaggerUi.serve,  swaggerUi.setup(swaggerDocument));
 
 /**
  * @swagger
@@ -59,8 +69,20 @@ app.use("/auth", authRoutes);
  */
 app.use("/accounts", accountsRouter);
 
+/**
+ * @swagger
+ * tags:
+ *   name: Payments
+ *   description: Payment Routes
+ */
 app.use("/payments", paymentRouter)
 
+/**
+ * @swagger
+ * tags:
+ *   name: Trips
+ *   description: User Trips Routes
+ */
 app.use("/trips", tripsRouter)
 
 app.use(errorHandlingMiddleware)

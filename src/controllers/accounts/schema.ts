@@ -15,21 +15,36 @@ interface ProfileUpdateBody {
 }
 
 const profileBodySchema = Joi.object<ProfileUpdateBody>({
-    firstName: Joi.string().max(100).optional(),
-    lastName:  Joi.string().max(100).optional(),
-    dob: dobSchema.optional(),
+    firstName: Joi.string().max(100).optional().empty('').strip(),
+    lastName: Joi.string().max(100).optional().empty('').strip(),
+    dob: dobSchema.optional().empty('').strip(),
     phone: Joi.string().pattern(/^\+?[1-9]\d{1,14}$/)
-        .message('Invalid phone number format; Please use E.164 format.').optional(),
-    DLN: Joi.string().max(100).optional(),
+      .message('Invalid phone number format; Please use E.164 format.')
+      .optional()
+      .empty('')
+      .strip(),
+    DLN: Joi.string().max(100).optional().empty('').strip(),
     DLExpirationDate: Joi.date().iso().min('now')
-        .when('DLN', {
-            is: Joi.exist(),
-            then: Joi.required(),
-            otherwise: Joi.optional()
-        }),
-    DLCountry: countrySchema.max(100).optional(),
-    DLRegion: regionSchemaCreator({regionFieldName: "DLRegion", countryFieldName: "DLCountry"}).max(100).optional(),
-}).and("DLN", "DLExpirationDate")
+      .when('DLN', {
+          is: Joi.exist(),
+          then: Joi.required(),
+          otherwise: Joi.optional().empty('').strip(),
+      }),
+    DLCountry: countrySchema.max(100).optional().empty('').strip(),
+    DLRegion: regionSchemaCreator({ regionFieldName: "DLRegion", countryFieldName: "DLCountry" })
+      .max(100)
+      .optional()
+      .empty('')
+      .strip(),
+})
+  .and("DLN", "DLExpirationDate")
+  .options({
+      stripUnknown: {
+          objects: true, // Strips unknown keys in objects
+          arrays: false  // Retains unknown values in arrays
+      }
+  });
+
 
 
 export default profileBodySchema;

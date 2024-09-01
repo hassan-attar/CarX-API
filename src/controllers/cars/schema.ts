@@ -60,9 +60,16 @@ const carFilterSchema = Joi.object<CarFilter>({
         .min("now")
         .default(() => new Date().toISOString())
         .optional(),
-    availableTo: Joi.date().iso().min(Joi.ref("availableFrom")).default(() => {
+    availableTo: Joi.date().iso().min(Joi.ref('availableFrom')).default((_, helpers) => {
         const date = new Date();
-        date.setDate(date.getDate() + 3)
+        const availableFrom = helpers.state.ancestors[0]["availableFrom"];
+        if (availableFrom) {
+            // If availableFrom is set, add 3 days to it
+            date.setTime(new Date(availableFrom).getTime() + 3 * 24 * 60 * 60 * 1000);
+        } else {
+            // If availableFrom is not set, add 3 days to the current date
+            date.setDate(date.getDate() + 3);
+        }
         return date.toISOString();
     }).optional(),
     page: Joi.number().integer().positive().default(1).optional(),

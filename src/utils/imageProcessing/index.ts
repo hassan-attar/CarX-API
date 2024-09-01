@@ -14,6 +14,18 @@ const profileImageTransformer = sharp()
         height: 500,
     }).jpeg({ quality: 70 })
 
+export const deleteProfileImage = async (filename: string): Promise<boolean> => {
+    const filePermanentPath = path.join(__dirname, "..", "..", "..", "static", filename);
+    return new Promise<boolean>((resolve, _) => {
+        deleteFileIfExists(filePermanentPath).then(() => {
+            resolve(true)
+        }).catch((err) => {
+            console.log("Error in deleting the file");
+            throw err;
+        })
+    })
+}
+
 export const saveProfileImage = async (options: Options): Promise<string> => {
     const filename = `${options.filename}.jpg`;
     const filePermanentPath = path.join(__dirname, "..", "..", "..", "static", filename);

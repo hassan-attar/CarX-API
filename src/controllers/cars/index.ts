@@ -66,8 +66,7 @@ const getCars: RequestHandler = async(req, res, next) => {
         });
         return res.status(200).json(cars);
     } catch (err) {
-        console.log("Error in getCars: ", err);
-        res.status(500).json("Something went Wrong");
+        return next(err);
     }
 }
 

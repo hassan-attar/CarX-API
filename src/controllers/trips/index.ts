@@ -14,7 +14,7 @@ export const getTrips : RequestHandler = async (req, res) => {
             userId: req.user.userId
         },
         attributes: {
-            exclude: ["hostId"],
+            exclude: ["hostId", "userId", "carId", "paymentId"],
         },
         include: [
             {
@@ -25,7 +25,7 @@ export const getTrips : RequestHandler = async (req, res) => {
             {
                 model: db.Car,
                 as: "Car",
-                attributes: ["headerImage", "make", "model", "year", "country", "region", "city"]
+                attributes: ["headerImage", "make", "model", "year", "country", "region", "city", "carId"]
             }
         ]
     })
@@ -41,25 +41,25 @@ export const getTripById : RequestHandler = async (req, res) => {
             userId: req.user.userId
         },
         attributes: {
-            exclude: ["hostId"],
+            exclude: ["hostId", "paymentId", "carId", "userId"],
         },
         include: [
             {
                 model: db.Host,
                 as: "Host",
-                attributes: ["firstName", "lastName", "profileImage"],
+                attributes: ["hostId" ,"firstName", "lastName", "profileImage"],
             },
             {
                 model: db.Car,
                 as: "Car",
                 attributes: {
-                    exclude: ["price", "minRentDays", "maxRentDays","extraDistanceCharge", "hostId", "carId"]
+                    exclude: ["currency","price", "minRentDays", "maxRentDays","extraDistanceCharge", "hostId", "carId"]
                 }
             },
             {
                 model: db.Payment,
                 as: "Payment",
-                attributes: ["total", "subtotal", "currency", "status"]
+                attributes: ["paymentId", "total", "subtotal", "currency", "status"]
             }
         ],
     })
@@ -69,6 +69,8 @@ export const getTripById : RequestHandler = async (req, res) => {
         trip.Car.plateNumber = undefined;
         // @ts-ignore
         trip.Car.address = undefined;
+        // @ts-ignore
+        trip.Car.postalCode = undefined;
     }
     return res.json(trip);
 }

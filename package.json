@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/src/server.js",
-    "dev": "NODE_ENV=development nodemon --watch src --ext ts --ignore 'src/**/*.test.ts' --exec 'ts-node src/server.ts'",
+    "dev": "NODE_ENV=development nodemon --watch src --watch openapi.yml --ext ts --ignore 'src/**/*.test.ts' --exec 'ts-node src/server.ts'",
     "test": "echo Test not yet implemented",
     "setup-fresh-db": "ts-node src/models/application/scripts/syncDb.ts -f",
     "setup-fresh-db-with-data": "ts-node src/models/application/scripts/syncDb.ts -f -l",

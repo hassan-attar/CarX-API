@@ -6,6 +6,6 @@ import isAuthenticatedMiddleware from "../../middlewares/isAuthenticatedMiddlewa
 router.use(isAuthenticatedMiddleware)
 router.get("/", getTrips)
 router.get("/:tripId", getTripById)
-router.get("/:tripId/cancel", cancelPendingTrip)
+router.delete("/:tripId", cancelPendingTrip)
 
 export default router;
